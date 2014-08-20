@@ -58,7 +58,6 @@ class Helper_Base_EP1;
 class BarrelBase;
 class Dead_base_F;
 class House_EP1;
-class Land_i_Shop_01_V1_F;
 class Cargo_House_base_F;
 class Cargo_Tower_base_F;
 class Cargo_HQ_base_F;
@@ -75,7 +74,7 @@ class Garbage_base_F;
 class IndPipe_Small_base;
 class IndPipe_Small_base_F;
 class IndPipe_base_F;
-
+class Land_fortified_nest_small;
 //----------------------------------------------
 //				Вещи
 //----------------------------------------------
@@ -1484,6 +1483,10 @@ class Fort_EnvelopeSmall_EP1 : Fort_EnvelopeSmall {
     displayName = "Окоп (личный, серый)";
 
 };
+class Base_WarfareBBarrier5x : House {
+    textPlural = "Укрепления";
+    displayName = "HBarrier2 5";
+};
 class Base_WarfareBBarrier10x : Base_WarfareBBarrier5x {
     textPlural = "Укрепления";
     displayName = "HBarrier2 10";
@@ -1492,10 +1495,7 @@ class Base_WarfareBBarrier10xTall : Base_WarfareBBarrier5x {
     textPlural = "Укрепления";
     displayName = "HBarrier2 10x2";
 };
-class Base_WarfareBBarrier5x : House {
-    textPlural = "Укрепления";
-    displayName = "HBarrier2 5";
-};
+
 
 
 
@@ -4469,6 +4469,9 @@ class Land_i_Addon_03_V1_F : House_Small_f {
 class Land_dp_smallFactory_F : House_F {
     textPlural = "Здания (Алтис)";
 };
+class Land_i_Shop_01_V1_F : House_F {
+    textPlural = "Здания (Алтис)";  
+};
 class Land_i_Shop_01_V2_F : Land_i_Shop_01_V1_F {
     textPlural = "Здания (Алтис)";
 };
@@ -4593,9 +4596,6 @@ class Land_u_Addon_01_V1_F : House_Small_f {
     textPlural = "Здания (Алтис)";
 };
 class Land_Offices_01_V1_F : House_F {
-    textPlural = "Здания (Алтис)";  
-};
-class Land_i_Shop_01_V1_F : House_F {
     textPlural = "Здания (Алтис)";  
 };
 class Land_Kiosk_blueking_F : House_Small_f {
@@ -5204,11 +5204,6 @@ class Land_ladder_half_EP1 : Land_ladder_half {
 };
 
 
-//----------------------------------------------
-//             Аэропорт
-//----------------------------------------------
-
-
 
 
 //----------------------------------------------
@@ -5217,13 +5212,13 @@ class Land_ladder_half_EP1 : Land_ladder_half {
 class Land_d_Windmill01_F : House_Small_f {
     textPlural = "Здания (Алтис, деревнья)";
 };
+class Land_Slum_House01_F : House_Small_f {
+    textPlural = "Здания (Алтис, деревнья)";
+};
 class Land_i_Windmill01_F : Land_d_Windmill01_F {
     textPlural = "Здания (Алтис, деревнья)";
 };
 class Land_Slum_House03_F : Land_Slum_House01_F {
-    textPlural = "Здания (Алтис, деревнья)";
-};
-class Land_Slum_House01_F : House_Small_f {
     textPlural = "Здания (Алтис, деревнья)";
 };
 class Land_Slum_House02_F : House_Small_f {
@@ -5235,19 +5230,22 @@ class Land_cargo_addon02_V2_F : House_Small_f {
 class Land_Metal_Shed_F : House_Small_f {
     textPlural = "Здания (Алтис, деревнья)";
 };
-class Land_i_Stone_HouseSmall_V2_F : Land_i_Stone_HouseSmall_V1_F {
+class Land_d_Stone_HouseSmall_V1_F : House_F {
     textPlural = "Здания (Алтис, деревнья)";
 };
-class Land_i_Stone_HouseSmall_V2_F : Land_i_Stone_HouseSmall_V1_F {
-    textPlural = "Здания (Алтис, деревнья)";
-};
-class Land_i_Stone_HouseBig_V3_F : Land_i_Stone_HouseBig_V1_F {
+class Land_i_Stone_HouseSmall_V1_F : House_F {
     textPlural = "Здания (Алтис, деревнья)";
 };
 class Land_d_Stone_HouseBig_V1_F : House_F {
     textPlural = "Здания (Алтис, деревнья)";
 };
 class Land_i_Stone_HouseBig_V1_F : House_F {
+    textPlural = "Здания (Алтис, деревнья)";
+};
+class Land_i_Stone_HouseSmall_V2_F : Land_i_Stone_HouseSmall_V1_F {
+    textPlural = "Здания (Алтис, деревнья)";
+};
+class Land_i_Stone_HouseBig_V3_F : Land_i_Stone_HouseBig_V1_F {
     textPlural = "Здания (Алтис, деревнья)";
 };
 class Land_i_Stone_HouseSmall_V3_F : Land_i_Stone_HouseSmall_V1_F {
@@ -5265,12 +5263,6 @@ class Land_i_Stone_Shed_V2_F : Land_i_Stone_Shed_V1_F {
 class Land_i_Stone_Shed_V3_F : Land_i_Stone_Shed_V1_F {
     textPlural = "Здания (Алтис, деревнья)";
 };
-class Land_d_Stone_HouseSmall_V1_F : House_F {
-    textPlural = "Здания (Алтис, деревнья)";
-};
-class Land_i_Stone_HouseSmall_V1_F : House_F {
-    textPlural = "Здания (Алтис, деревнья)";
-};
 class Land_cargo_house_slum_F : House_Small_f {
     textPlural = "Здания (Алтис, деревнья)";
 };
@@ -5283,10 +5275,6 @@ class Land_cargo_house_slum_F : House_Small_f {
 class Base_WarfareBAircraftFactory;
 class BASE_WarfareBAntiAirRadar;
 class BASE_WarfareBArtilleryRadar;
-class Base_WarfareBBarracks;
-class Base_WarfareBBarrier10x;
-class Base_WarfareBBarrier10xTall;
-class Base_WarfareBBarrier5x;
 class Base_WarfareBHeavyFactory;
 class Base_WarfareBLightFactory;
 class Base_WarfareBUAVterminal;
@@ -5676,10 +5664,6 @@ class CDF_WarfareBArtilleryRadar : BASE_WarfareBArtilleryRadar {
     textPlural = "GUE";
     displayName = "";
 };
-class CDF_WarfareBArtilleryRadar : BASE_WarfareBArtilleryRadar {
-    textPlural = "GUE";
-    displayName = "";
-};
 class CDF_WarfareBBarracks : Base_WarfareBBarracks {
     textPlural = "GUE";
     displayName = "";
@@ -5693,10 +5677,6 @@ class CDF_WarfareBBarrier10xTall : Base_WarfareBBarrier10xTall {
     displayName = "";
 };
 class CDF_WarfareBBarrier5x : Base_WarfareBBarrier5x {
-    textPlural = "GUE";
-    displayName = "";
-};
-class CDF_WarfareBHeavyFactory : Base_WarfareBHeavyFactory {
     textPlural = "GUE";
     displayName = "";
 };

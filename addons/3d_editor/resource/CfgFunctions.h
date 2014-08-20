@@ -6,7 +6,6 @@ class CfgFunctions
 		{
 			file = "3d_editor\functions";
 			class Precompile{preInit=1;};
-			class CalculatePosition{};
 			class Camera{};
 			class Draw3D{};
 			class HandlerDisplay{};

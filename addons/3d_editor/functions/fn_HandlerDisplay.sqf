@@ -23,7 +23,9 @@ switch (_event) do {
 		lbClear _ctrlPlural;
 		{
 			_ctrlPlural lbAdd format ["%1 (%2)", _x, count (EDITOR_Vehicles select _forEachIndex)];
+			_ctrlPlural lbSetData [_forEachIndex, _x];
 		} foreach EDITOR_VehicleClasses;
+		lbSort _ctrlPlural;
 		_ctrlPlural lbSetCurSel 0;
 
 		// -------------------- Camera --------------------
@@ -63,6 +65,25 @@ switch (_event) do {
 		PR(_shift)	= _arg select 2;
 		PR(_ctrl)	= _arg select 3;
 		PR(_alt)	= _arg select 4;
+
+
+		switch (_key) do {
+			// Copy
+			case KEY_C : {
+				systemChat format ["KEY: %1 %2 %3",_key,EDITOR_InView,EDITOR_keys];
+				if (EDITOR_InView && !(KEY_C in EDITOR_keys)) then {
+					[] call EDITOR_fnc_Save;
+				};
+			};
+			// Pase
+			case KEY_V : {
+				systemChat format ["KEY: %1 %2 %3",_key,EDITOR_InView,EDITOR_keys];
+				if (EDITOR_InView && !(KEY_V in EDITOR_keys)) then {
+					[] call EDITOR_fnc_Pase;
+				};
+			};
+
+		};
 
 		// check ALT+TAB 
 		if (_key == KEY_TAB && _alt) exitWith {

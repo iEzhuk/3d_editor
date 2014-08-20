@@ -16,7 +16,7 @@ for "_i" from 0 to (_count-1) do
 {
 	_obj = EDITOR_Created select _i;
 	_color = if(_obj getVariable ["EDITOR_Global",false])then{COLOR_GLOBAL}else{COLOR_LOCAL};
-	[_obj,_color] call EDITOR_fnc_DrawIcon;
+	[_obj,_color0,0.5] call EDITOR_fnc_DrawIcon;
 };
 
 

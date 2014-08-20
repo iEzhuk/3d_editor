@@ -4,6 +4,8 @@
 #define IDC_EDITOR_CLASSES 88803
 #define IDC_EDITOR_VIEW    88804
 #define IDC_EDITOR_SELECT  88805
+#define IDC_EDITOR_CREATED 88806
+
 class RscText;
 class RscStructuredText;
 class RscListbox;
@@ -52,12 +54,12 @@ class RscEditor3D {
 			sizeEx 	= 0.025;
 			canDrag = 1;
 			
-			onLBSelChanged = "['objFiltered_LBSelChanged',_this] call EDITOR_fnc_HandlerControl;";
-			onKeyDown 	   = "['objFiltered_keyDown',_this] call EDITOR_fnc_HandlerControl;";
-			onKeyUp 	   = "['objFiltered_keyUp',_this] call EDITOR_fnc_HandlerControl;";
-			onLBDrag 	   = "['objFiltered_onLBDrag', _this] call EDITOR_fnc_HandlerControl;";
-			onLBDragging   = "['objFiltered_onLBDragging', _this] call EDITOR_fnc_HandlerControl;";
-			onLBDrop 	   = "['objFiltered_onLBDrop', _this] call EDITOR_fnc_HandlerControl;";
+			// onLBSelChanged = "['objFiltered_LBSelChanged',_this] call EDITOR_fnc_HandlerControl;";
+			// onKeyDown 	   = "['objFiltered_keyDown',_this] call EDITOR_fnc_HandlerControl;";
+			// onKeyUp 	   = "['objFiltered_keyUp',_this] call EDITOR_fnc_HandlerControl;";
+			// onLBDrag 	   = "['objFiltered_onLBDrag', _this] call EDITOR_fnc_HandlerControl;";
+			// onLBDragging   = "['objFiltered_onLBDragging', _this] call EDITOR_fnc_HandlerControl;";
+			// onLBDrop 	   = "['objFiltered_onLBDrop', _this] call EDITOR_fnc_HandlerControl;";
 		};
 		class View: RscListbox
 		{
@@ -86,5 +88,19 @@ class RscEditor3D {
 
 			colorBackground[] = {1,0.5,0.0,0.2};
 		};
+	};
+
+	class CreatedClasses: RscListbox
+	{
+		idc = IDC_EDITOR_CREATED;
+
+		x = 0.00 * safeZoneW+safeZoneX;
+		y = 0.70 * safeZoneH+safeZoneY;
+		w = 0.20 * safeZoneW;
+		h = 0.30 * safeZoneH;
+
+		size 	= 0.025;
+		sizeEx 	= 0.025;
+		canDrag = 1;
 	};
 };

@@ -11,15 +11,22 @@ PR(_arg)   = _this select 1;
 
 switch (_event) do {
 	case "Plural_lb_changed" : {
-		PR(_ind) = _arg select 1;
+		PR(_lbInd) = _arg select 1;
+
 		PR(_display) = uiNamespace getVariable 'EDITOR_Disaplay';
-		PR(_control) = _display displayCtrl IDC_EDITOR_CLASSES;
-		lbClear _control;
+
+		PR(_ctrlPlural) = _display displayCtrl IDC_EDITOR_PLURAL;
+		PR(_ctrlClass)  = _display displayCtrl IDC_EDITOR_CLASSES;
+
+		PR(_plural) = _ctrlPlural lbData _lbInd;
+		PR(_indClass) = EDITOR_VehicleClasses find _plural;
+
+		lbClear _ctrlClass;
 		{
-			_control lbAdd format ["%1 || %2", getText(configFile >> "CfgVehicles" >> _x >> "displayName"), _x];
-			_control lbSetData [_forEachIndex, _x];
-		} foreach (EDITOR_Vehicles select _ind);
-		lbSort _control;
+			_ctrlClass lbAdd format ["%1  ||  %2", getText(configFile >> "CfgVehicles" >> _x >> "displayName"), _x];
+			_ctrlClass lbSetData [_forEachIndex, _x];
+		} foreach (EDITOR_Vehicles select _indClass);
+		lbSort _ctrlClass;
 	};
 	case "view_lbDrop" : {
 		PR(_wordPos) = screenToWorld [_arg select 1, _arg select 2];

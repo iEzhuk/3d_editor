@@ -44,10 +44,11 @@ EDITOR_fnc_DrawIcon = {
 	private ["_obj","_color","_pos","_text"];
 	_obj = _this select 0;
 	_color = _this select 1;
-
+	_size = [_this, 2, 1.0] call BIS_fnc_param;
+	
 	_pos = getPos _obj;
 
-	drawIcon3D ["a3\ui_f\data\map\markers\military\box_CA.paa", _color, _pos, 1, 1, 2, "", 2, 0.05, "PuristaMedium"];
+	drawIcon3D ["a3\ui_f\data\map\markers\military\box_CA.paa", _color, _pos, _size, _size, 2, "", 2, 0.05, "PuristaMedium"];
 };
 
 //========================================================================================
@@ -66,22 +67,24 @@ EDITOR_fnc_CreateObject = {
 		_newObj setVariable ["EDITOR_Pitch",[_h,_v]];
 		_newObj allowdamage false;
 		_newObj enableSimulationGlobal false;
+
+		if (count EDITOR_Selected == 1) then {
+			PR(_tObj) = EDITOR_Selected select 0;
+			PR(_posASL) = getPosASL _tObj;
+
+			_newObj setDir (getDir _tObj);
+			_newObj setVectorUp (vectorUp _tObj);
+			_newObj setVariable ["EDITOR_Global", (_tObj getVariable ["EDITOR_Global",false]) ];
+
+			_pos set [2, _posASL select 2];
+			_newObj setPosASL _pos;
+		};
+
+		EDITOR_Created set [count EDITOR_Created, _newObj];
+		EDITOR_Selected = [_newObj];
 	};
 
-	if (count EDITOR_Selected == 1) then {
-		PR(_tObj) = EDITOR_Selected select 0;
-		PR(_posASL) = getPosASL _tObj;
 
-		_newObj setDir (getDir _tObj);
-		_newObj setVectorUp (vectorUp _tObj);
-		_newObj setVariable ["EDITOR_Global", (_tObj getVariable ["EDITOR_Global",false]) ];
-
-		_pos set [2, _posASL select 2];
-		_newObj setPosASL _pos;
-	};
-
-	EDITOR_Created set [count EDITOR_Created, _newObj];
-	EDITOR_Selected = [_newObj];
 
 
 	PR(_br) = toString [13, 10];
@@ -134,6 +137,26 @@ EDITOR_fnc_CheckPositionInRectangle = {
 	PR(_h) = _rect select 3;
 
 	(_pX > _x) && (_pX < _x+_w) && (_pY > _y) && (_pY < _y+_h)
+};
+
+//========================================================================================
+//	Name:	EDITOR_fnc_CalculatePosition
+//	Desc:	Calculate new position
+//========================================================================================
+EDITOR_fnc_CalculatePosition = {
+	PR(_angl) = _this select 0;
+	PR(_dist) = _this select 1;
+	PR(_dZ) = _this select 2;
+	PR(_pos) = _this select 3;
+	PR(_dir) = _this select 4;
+
+	PR(_newPos) = [
+		(_pos select 0) + ((sin (_dir+_angl)) * _dist),
+		(_pos select 1) + ((cos (_dir+_angl)) * _dist),
+		(_pos select 2) + _dZ
+	];
+
+	_newPos
 };
 
 //========================================================================================
@@ -359,6 +382,111 @@ EDITOR_fnc_ManipulateObjectByKeyboard = {
 };
 
 //========================================================================================
+//	Name:	EDITOR_fnc_Save
+//	Desc:	Save object to copy
+//========================================================================================
+EDITOR_fnc_Save = {
+	EDITOR_Saved = [];
+	
+	systemChat format ["EDITOR_fnc_Save: %1",EDITOR_Selected];
+
+	switch (true) do {
+		case (count EDITOR_Selected > 1) : 
+		{
+			PR(_mousePos) = screenToWorld EDITOR_MouseCur_Position;
+
+			for "_i" from 0 to ((count EDITOR_Selected)-1) do {
+				PR(_obj) = EDITOR_Selected select _i;
+				PR(_pos) = getPosATL _obj; 
+				PR(_delPos) = [
+						(_pos select 0) - (_mousePos select 0),
+						(_pos select 1) - (_mousePos select 1),
+						(_pos select 2)
+					];
+				PR(_tmp) = [
+						/*0*/ 	typeOf _obj,
+						/*1*/	_delPos,
+						/*2*/	vectorUp _obj,
+						/*3*/	_obj getVariable ["EDITOR_Pitch",[0,0]],
+						/*4*/	_obj getVariable ["EDITOR_Global",false]
+					];
+				EDITOR_Saved set [count EDITOR_Saved, _tmp];
+			};
+
+		};
+
+		case (count EDITOR_Selected == 1) : 
+		{
+			PR(_obj) = EDITOR_Selected select 0;
+			PR(_pos) = getPosATL _obj; 
+			PR(_tmp) = [
+					/*0*/ 	typeOf _obj,
+					/*1*/	[0,0,_pos select 2],
+					/*2*/	vectorUp _obj,
+					/*3*/	_obj getVariable ["EDITOR_Pitch",[0,0]],
+					/*4*/	_obj getVariable ["EDITOR_Global",false]
+				];
+			EDITOR_Saved = [_tmp];
+		};
+
+	};
+
+};
+
+
+//========================================================================================
+//	Name:	EDITOR_fnc_Pase
+//	Desc:	
+//========================================================================================
+EDITOR_fnc_Pase = {
+	PR(_created) = [];
+	PR(_mousePos) = screenToWorld EDITOR_MouseCur_Position;
+
+	
+	systemChat format ["EDITOR_fnc_Pase: %1",EDITOR_Saved];
+
+	for "_i" from 0 to ((count EDITOR_Saved)-1) do {
+		PR(_objTMP) = EDITOR_Saved select _i;
+
+		PR(_vehClass)   = _objTMP select 0;
+		PR(_dPos) 		= _objTMP select 1;
+		PR(_vectorUp)   = _objTMP select 2;
+		PR(_pitch)      = _objTMP select 3;
+		PR(_global)		= _objTMP select 4;
+
+		PR(_pos) = [
+				(_mousePos select 0) + (_dPos select 0),
+				(_mousePos select 1) + (_dPos select 1),
+				_dPos select 2
+			];
+
+		PR(_newObj) = createVehicle [ [_vehClass] call BIS_fnc_filterString, _pos, [], 0, "CAN_COLLIDE"];
+
+		if(!(isNull _newObj)) then 
+		{
+			_newObj setPosATL _pos;
+			_newObj setVectorUp _vectorUp;
+
+			_newObj setVariable ["EDITOR_Global",_global];
+			_newObj setVariable ["EDITOR_Pitch",_pitch];
+			_newObj allowdamage false;
+			_newObj enableSimulationGlobal false;
+
+			_created = _created + [_newObj];
+
+			EDITOR_Created set [count EDITOR_Created, _newObj];
+		};
+
+	};
+
+
+	EDITOR_Selected = _created;
+
+};
+
+
+
+//========================================================================================
 //	Name:	EDITOR_fnc_PrepareScriptToCreateObject_Local
 //	Desc:	Create script to create object 
 //========================================================================================
@@ -451,7 +579,9 @@ EDITOR_fnc_SaveToClipboard = {
 	PR(_br) = toString [13, 10];
 	PR(_text) = "";
 
-	_text = _text + format ["// Object count: %1", count EDITOR_Created] + _br;
+	_text = _text + "// Object count:"+_br;
+	_text = _text + format ["//     Global - %1", {_obj getVariable ["EDITOR_Global",false]} count EDITOR_Created] + _br;
+	_text = _text + format ["//     Local  - %1", {!(_obj getVariable ["EDITOR_Global",false])} count EDITOR_Created] + _br;
 	_text = _text + "private [""_obj""];"+_br;
 	_text = _text + 'if (isnil "EDITOR_Created") then {EDITOR_Created = [];};'+_br;
 
