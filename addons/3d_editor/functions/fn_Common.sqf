@@ -498,13 +498,13 @@ EDITOR_fnc_PrepareScriptToCreateObject_Local = {
 	PR(_vectorUp) = vectorUp _obj;
 	PR(_pitch) = _obj call BIS_fnc_getPitchBank;
 	_obj setvectorup [0,0,1];
-	PR(_pos) = getPosATL _obj;
+	PR(_pos) = getPosWorld _obj;
 	PR(_dir) = getDir _obj;
 	_obj setVectorUp _vectorUp;
 	PR(_txt) = "";
 
 	_txt = _txt + format ["_obj = ""%1"" createVehiclelocal %2;",_objType,_pos] + _br;
-	_txt = _txt + format ["_obj setPosATL %1;",_pos] + _br;
+	_txt = _txt + format ["_obj setPosWorld %1;",_pos] + _br;
 	_txt = _txt + format ["_obj setDir %1;",_dir] + _br;
 	//_txt = _txt + format ["_obj setVectorUp %1;",_vectorUp] + _br;
 	_txt = _txt + format ["[_obj, %1, %2] call BIS_fnc_setPitchBank;",_pitch select 0 , _pitch select 1] + _br;
@@ -530,15 +530,15 @@ EDITOR_fnc_PrepareScriptToCreateObject_Global = {
 	PR(_vectorUp) = vectorUp _obj;
 	PR(_pitch) = _obj call BIS_fnc_getPitchBank;
 	_obj setvectorup [0,0,1];
-	PR(_pos) = getPosATL _obj;
+	PR(_pos) = getPosWorld _obj;
 	PR(_dir) = getDir _obj;
 	_obj setVectorUp _vectorUp;
 	PR(_txt) = "";
 
 	_txt = _txt + format ["_obj = createVehicle [""%1"", %2, [], 0, ""CAN_COLLIDE""];",_objType,_pos] + _br;
+	_txt = _txt + format ["_obj setPosWorld %1;",_pos] + _br;
 	_txt = _txt + format ["_obj setDir %1;",_dir] + _br;
 
-	_txt = _txt + format ["_obj setPosATL %1;",_pos] + _br;
 	//_txt = _txt + format ["_obj setVectorUp %1;",_vectorUp] + _br;
 
 	_txt = _txt + format ["[_obj, %1, %2] call BIS_fnc_setPitchBank;",_pitch select 0 , _pitch select 1] + _br;
