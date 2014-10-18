@@ -5,5 +5,5 @@
 		Ezhuk
 */	
 		
-//createDialog "RscEditor3D";
-(finddisplay 46) createdisplay "RscEditor3D";
+createDialog "RscEditor3D";
+//(finddisplay 46) createdisplay "RscEditor3D";

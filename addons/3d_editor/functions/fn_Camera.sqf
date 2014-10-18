@@ -36,13 +36,16 @@ switch (_event) do {
 
 	};
 	case "destroy" : {
+		systemChat "camClose";
 		player cameraEffect ["terminate","back"];
 		camDestroy EDITOR_Camera;
+
 	};
 	case "move" : {
-		PR(_dist) = 6; PR(_distZ) = 4;
+		PR(_dist) = 7; PR(_distZ) = 4;
 
 		if(KEY_LCONTROL in EDITOR_keys) then {_dist = 1;   _distZ = 1;};
+		if(KEY_LMENU 	in EDITOR_keys) then {_dist = 57;   _distZ = 37;};
 		if(KEY_LSHIFT   in EDITOR_keys) then {_dist = 101; _distZ = 57;};
 		if(KEY_LSHIFT   in EDITOR_keys && KEY_LMENU in EDITOR_keys) then {_dist = 577; _distZ = 173;};
 
@@ -72,8 +75,8 @@ switch (_event) do {
 		PR(_dH) = _arg select 1;
 		PR(_dV) = _arg select 2;
 
-		EDITOR_Camera_AngV = (EDITOR_Camera_AngV - _dV*0.7*2) max -89.9 min 89.9;
-		EDITOR_Camera setDir (getDir EDITOR_Camera + _dH*0.7*2);
+		EDITOR_Camera_AngV = (EDITOR_Camera_AngV - _dV) max -89.9 min 89.9;
+		EDITOR_Camera setDir (getDir EDITOR_Camera + _dH);
 		[EDITOR_Camera, EDITOR_Camera_AngV, 0] call bis_fnc_setpitchbank;
 		EDITOR_Camera camCommitPrepared 0;
 	};

@@ -5706,10 +5706,6 @@ class CDF_WarfareBVehicleServicePoint : Base_WarfareBVehicleServicePoint {
 
 
 
-
-
-
-
 };
 
 

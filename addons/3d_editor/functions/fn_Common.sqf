@@ -41,13 +41,14 @@ EDITOR_fnc_DrawBox3D = {
 //	Desc:	Draw icon pos 
 //========================================================================================
 EDITOR_fnc_DrawIcon = {
-	private ["_obj","_color","_pos","_text"];
+	private ["_obj","_color","_pos","_text","_size"];
 	_obj = _this select 0;
 	_color = _this select 1;
 	_size = [_this, 2, 1.0] call BIS_fnc_param;
-	
+
 	_pos = getPos _obj;
 
+	//drawIcon3D ["a3\ui_f\data\map\markers\military\box_CA.paa", _color, _pos, 1, 1, 2, "", 2, 0.05, "PuristaMedium"];
 	drawIcon3D ["a3\ui_f\data\map\markers\military\box_CA.paa", _color, _pos, _size, _size, 2, "", 2, 0.05, "PuristaMedium"];
 };
 
@@ -70,22 +71,21 @@ EDITOR_fnc_CreateObject = {
 
 		if (count EDITOR_Selected == 1) then {
 			PR(_tObj) = EDITOR_Selected select 0;
-			PR(_posASL) = getPosASL _tObj;
+			PR(_posASL) = _tObj call EDITOR_getPos;
 
 			_newObj setDir (getDir _tObj);
 			_newObj setVectorUp (vectorUp _tObj);
 			_newObj setVariable ["EDITOR_Global", (_tObj getVariable ["EDITOR_Global",false]) ];
 
 			_pos set [2, _posASL select 2];
-			_newObj setPosASL _pos;
+			[_newObj,_pos] call EDITOR_setPos;
 		};
 
 		EDITOR_Created set [count EDITOR_Created, _newObj];
 		EDITOR_Selected = [_newObj];
 	};
 
-
-
+	[] call EDITOR_fnc_UpdateCreatedClasses;
 
 	PR(_br) = toString [13, 10];
 	PR(_text) = "";
@@ -194,7 +194,6 @@ EDITOR_fnc_SelectObjectsInRectagle = {
 
 		if(count _screenPos == 2) then {
 			if([_screenPos,_rect] call EDITOR_fnc_CheckPositionInRectangle) then {
-				systemChat str(_screenPos);
 				if(_obj in EDITOR_Selected) then {
 					EDITOR_Selected = EDITOR_Selected - [_obj];
 				} else {
@@ -222,7 +221,7 @@ EDITOR_fnc_MoveObjects = {
 		// _pitchBank = _obj call BIS_fnc_getPitchBank;
 		_vectorUp = vectorUp _obj;
 		_obj setvectorup [0,0,1];
-		_pos = getPosASL _obj;
+		_pos = _obj call EDITOR_getPos;
 
 		_newPos = 	[
 						(_pos select 0) + (_delta select 0),
@@ -230,7 +229,7 @@ EDITOR_fnc_MoveObjects = {
 						(_pos select 2) + (_delta select 2)
 					];
 
-		_obj setPosASL _newPos;
+		[_obj,_newPos] call EDITOR_setPos;
 		_obj setVectorUp _vectorUp;
 		// [_obj, _pitchBank select 0, _pitchBank select 1] call BIS_fnc_setPitchBank;
 	};
@@ -259,7 +258,7 @@ EDITOR_fnc_RotatePoint = {
 //	Desc:	Draw rectagle 
 //========================================================================================
 EDITOR_fnc_RotateObjects = {
-	private ["_delta","_count","_pos","_dir","_newPos","_obj","_pitchBank","_vectorUp"];
+	private ["_delta","_count","_pos","_dir","_newPos","_obj","_pitchBank","_vectorUp","_pitch"];
 
 	_objs  = _this select 0;
 	_delta = _this select 1;
@@ -277,16 +276,18 @@ EDITOR_fnc_RotateObjects = {
 
 		if(count EDITOR_RotateCenter == 3) then {
 			private ["_x","_y","_nx","_ny"];
-			_pos = getPosATL _obj;
+			_pos = _obj call EDITOR_getPos;
 
 			_nPos = [_pos select 0, _pos select 1, EDITOR_RotateCenter select 0, EDITOR_RotateCenter select 1, -_delta] call EDITOR_fnc_RotatePoint;
 			_nPos set [2, _pos select 2];
 
-			_obj setPosATL _nPos;
+			[_obj,_nPos] call EDITOR_setPos;
 		};
 
-		_obj setVectorUp _vectorUp;
-		// [_obj, _pitchBank select 0, _pitchBank select 1] call BIS_fnc_setPitchBank;
+		//_obj setVectorUp _vectorUp;
+
+		_pitch = _obj getVariable ["EDITOR_Pitch",[0,0]];
+		[_obj, _pitch select 0, _pitch select 1] call BIS_fnc_setPitchBank;
 	};
 };
 
@@ -305,6 +306,8 @@ EDITOR_fnc_RemoveSelected = {
 
 	EDITOR_Selected = [];
 	EDITOR_RotateCenter = [];
+
+	[] call EDITOR_fnc_UpdateCreatedClasses;
 };
 
 //========================================================================================
@@ -397,7 +400,7 @@ EDITOR_fnc_Save = {
 
 			for "_i" from 0 to ((count EDITOR_Selected)-1) do {
 				PR(_obj) = EDITOR_Selected select _i;
-				PR(_pos) = getPosATL _obj; 
+				PR(_pos) = _obj call EDITOR_getPos; 
 				PR(_delPos) = [
 						(_pos select 0) - (_mousePos select 0),
 						(_pos select 1) - (_mousePos select 1),
@@ -408,7 +411,8 @@ EDITOR_fnc_Save = {
 						/*1*/	_delPos,
 						/*2*/	vectorUp _obj,
 						/*3*/	_obj getVariable ["EDITOR_Pitch",[0,0]],
-						/*4*/	_obj getVariable ["EDITOR_Global",false]
+						/*4*/	_obj getVariable ["EDITOR_Global",false],
+						/*5*/	getDir _obj
 					];
 				EDITOR_Saved set [count EDITOR_Saved, _tmp];
 			};
@@ -418,32 +422,31 @@ EDITOR_fnc_Save = {
 		case (count EDITOR_Selected == 1) : 
 		{
 			PR(_obj) = EDITOR_Selected select 0;
-			PR(_pos) = getPosATL _obj; 
+			PR(_pos) = _obj call EDITOR_getPos; 
 			PR(_tmp) = [
 					/*0*/ 	typeOf _obj,
 					/*1*/	[0,0,_pos select 2],
 					/*2*/	vectorUp _obj,
 					/*3*/	_obj getVariable ["EDITOR_Pitch",[0,0]],
-					/*4*/	_obj getVariable ["EDITOR_Global",false]
+					/*4*/	_obj getVariable ["EDITOR_Global",false],
+					/*5*/	getDir _obj
 				];
 			EDITOR_Saved = [_tmp];
 		};
 
 	};
-
 };
 
-
 //========================================================================================
-//	Name:	EDITOR_fnc_Pase
+//	Name:	EDITOR_fnc_Paste
 //	Desc:	
 //========================================================================================
-EDITOR_fnc_Pase = {
+EDITOR_fnc_Paste = {
 	PR(_created) = [];
 	PR(_mousePos) = screenToWorld EDITOR_MouseCur_Position;
 
 	
-	systemChat format ["EDITOR_fnc_Pase: %1",EDITOR_Saved];
+	//systemChat format ["EDITOR_fnc_Paste: %1",EDITOR_Saved];
 
 	for "_i" from 0 to ((count EDITOR_Saved)-1) do {
 		PR(_objTMP) = EDITOR_Saved select _i;
@@ -453,6 +456,7 @@ EDITOR_fnc_Pase = {
 		PR(_vectorUp)   = _objTMP select 2;
 		PR(_pitch)      = _objTMP select 3;
 		PR(_global)		= _objTMP select 4;
+		PR(_dir)		= _objTMP select 5;
 
 		PR(_pos) = [
 				(_mousePos select 0) + (_dPos select 0),
@@ -464,8 +468,9 @@ EDITOR_fnc_Pase = {
 
 		if(!(isNull _newObj)) then 
 		{
-			_newObj setPosATL _pos;
+			[_newObj, _pos] call EDITOR_setPos;
 			_newObj setVectorUp _vectorUp;
+			_newObj setDir _dir;
 
 			_newObj setVariable ["EDITOR_Global",_global];
 			_newObj setVariable ["EDITOR_Pitch",_pitch];
@@ -481,10 +486,7 @@ EDITOR_fnc_Pase = {
 
 
 	EDITOR_Selected = _created;
-
 };
-
-
 
 //========================================================================================
 //	Name:	EDITOR_fnc_PrepareScriptToCreateObject_Local
@@ -494,20 +496,21 @@ EDITOR_fnc_PrepareScriptToCreateObject_Local = {
 	PR(_obj) = _this select 0;
 	PR(_objType) = typeOf _obj;
 	PR(_vectorUp) = vectorUp _obj;
+	PR(_pitch) = _obj call BIS_fnc_getPitchBank;
 	_obj setvectorup [0,0,1];
-	PR(_posASL) = getPosASL _obj;
+	PR(_pos) = getPosATL _obj;
 	PR(_dir) = getDir _obj;
 	_obj setVectorUp _vectorUp;
 	PR(_txt) = "";
 
-	_txt = _txt + format ["_obj = ""%1"" createVehiclelocal %2;",_objType,_posASL] + _br;
-	_txt = _txt + format ["_obj setPosASL %1;",_posASL] + _br;
+	_txt = _txt + format ["_obj = ""%1"" createVehiclelocal %2;",_objType,_pos] + _br;
+	_txt = _txt + format ["_obj setPosATL %1;",_pos] + _br;
 	_txt = _txt + format ["_obj setDir %1;",_dir] + _br;
-	_txt = _txt + format ["_obj setVectorUp %1;",_vectorUp] + _br;
-
-	if(_obj isKindOf "Building") then {
-		_txt = _txt + "_obj call BIS_fnc_boundingBoxMarker;" + _br;
-	};
+	//_txt = _txt + format ["_obj setVectorUp %1;",_vectorUp] + _br;
+	_txt = _txt + format ["[_obj, %1, %2] call BIS_fnc_setPitchBank;",_pitch select 0 , _pitch select 1] + _br;
+	// if(_obj isKindOf "Building") then {
+	// 	_txt = _txt + "_obj call BIS_fnc_boundingBoxMarker;" + _br;
+	// };
 
 	_txt = _txt + "_obj allowdamage false;" + _br;
 	_txt = _txt + "_obj enableSimulationGlobal false;" + _br;
@@ -525,21 +528,21 @@ EDITOR_fnc_PrepareScriptToCreateObject_Global = {
 	PR(_obj) = _this select 0;
 	PR(_objType) = typeOf _obj;
 	PR(_vectorUp) = vectorUp _obj;
+	PR(_pitch) = _obj call BIS_fnc_getPitchBank;
 	_obj setvectorup [0,0,1];
-	PR(_posASL) = getPosASL _obj;
+	PR(_pos) = getPosATL _obj;
 	PR(_dir) = getDir _obj;
 	_obj setVectorUp _vectorUp;
 	PR(_txt) = "";
 
-	_txt = _txt + format ["_obj = createVehicle [""%1"", %2, [], 0, ""CAN_COLLIDE""];",_objType,_posASL] + _br;
+	_txt = _txt + format ["_obj = createVehicle [""%1"", %2, [], 0, ""CAN_COLLIDE""];",_objType,_pos] + _br;
 	_txt = _txt + format ["_obj setDir %1;",_dir] + _br;
 
-	_txt = _txt + format ["_obj setPosASL %1;",_posASL] + _br;
-	_txt = _txt + format ["_obj setVectorUp %1;",_vectorUp] + _br;
+	_txt = _txt + format ["_obj setPosATL %1;",_pos] + _br;
+	//_txt = _txt + format ["_obj setVectorUp %1;",_vectorUp] + _br;
 
-	if(_obj isKindOf "Building") then {
-		_txt = _txt + "_obj call BIS_fnc_boundingBoxMarker;" + _br;
-	};
+	_txt = _txt + format ["[_obj, %1, %2] call BIS_fnc_setPitchBank;",_pitch select 0 , _pitch select 1] + _br;
+
 
 	_txt = _txt + "_obj setVariable [""EDITOR_Global"", true];" + _br;
 	_txt = _txt + "EDITOR_Created set [count EDITOR_Created, _obj];" + _br;
@@ -569,7 +572,6 @@ EDITOR_PrepareScriptForMarkers = {
 
 	format ["[%1, %2, %3, %4] call EDITOR_BoundingBoxMarker_Local;",_pos, _dir, _bbx, _bby]
 };
-
 
 //========================================================================================
 //	Name:	EDITOR_fnc_SaveToClipboard
@@ -645,13 +647,129 @@ EDITOR_fnc_SaveToClipboard = {
 	//---------------------------------------------------
 
 	systemChat format ["Data copied to Clipboard: %1 objects",count EDITOR_Created];
-	hint format ["Data copied to Clipboard: %1 objects",count EDITOR_Created];
+	// hint format ["Data copied to Clipboard: %1 objects",count EDITOR_Created];
 
 	copyToClipboard _text;
+};
+
+//========================================================================================
+//	Name:	EDITOR_fnc_UpdateCreatedClasses
+//	Desc:	Show created classes
+//========================================================================================
+EDITOR_fnc_UpdateCreatedClasses = {
+	PR(_display) = uiNamespace getVariable 'EDITOR_Disaplay';
+	PR(_ctrCreated) = _display displayCtrl IDC_EDITOR_CREATED;
+
+	// Find all created classes
+	PR(_createdClasses) = [];
+	PR(_indCC) = 0;
+
+	for "_i" from 0 to ((count EDITOR_Created)-1) do {
+		PR(_obj) = EDITOR_Created select _i;
+		PR(_vehClass) = typeOf _obj;
+
+		if !(_vehClass in _createdClasses) then {
+			_createdClasses set [_indCC, _vehClass];
+			_indCC = _indCC + 1;
+		};
+	};
+
+	// Update control
+	lbClear _ctrCreated;
+	for "_i" from 0 to ((count _createdClasses)-1) do {
+		PR(_vehClass) = _createdClasses select _i;
+
+		_ctrCreated lbAdd format ["%1  ||  %2", getText (configFile >> "CfgVehicles" >> _vehClass >> "displayName"), _vehClass];
+		_ctrCreated lbSetData [_i, _vehClass];
+	};
+	lbSort _ctrCreated;
+};
+
+//========================================================================================
+//	Name:	EDITOR_setCtrlPosition
+//	Desc:	Set ctrl position in absolute coordinate
+//========================================================================================
+EDITOR_setCtrlPosition = {
+	PR(_ctrl) = _this select 0;
+	PR(_pos) = _this select 1;
+
+	_pos set [0, (_pos select 0)*safeZoneW+safeZoneX];
+	_pos set [1, (_pos select 1)*safeZoneH+safeZoneY];
+	
+	if(count _pos == 4) then {
+		_pos set [2, (_pos select 2)*safeZoneW];
+		_pos set [3, (_pos select 3)*safeZoneH];
+	};
+
+	_ctrl ctrlSetPosition _pos;
+};
+
+//========================================================================================
+//	Name:	EDITOR_chageGuiSate
+//	Desc:	Change gui sate to set size of controls 
+//========================================================================================
+EDITOR_chageGuiSate = {
+	PR(_display) = uiNamespace getVariable 'EDITOR_Disaplay';
+	PR(_ctrlView) = _display displayCtrl IDC_EDITOR_VIEW;
+	PR(_ctrlCrt)  = _display displayCtrl IDC_EDITOR_CREATED;
+	PR(_ctrlPlur) = _display displayCtrl IDC_EDITOR_PLURAL;
+	PR(_ctrlClas) = _display displayCtrl IDC_EDITOR_CLASSES;
+	PR(_ctrlType) = _display displayCtrl IDC_EDITOR_POSTYPE;
+
+	switch (_this) do {
+		case (GUISTATE_VIEW) : {
+			[_ctrlType, [0.00, 0.00, 0.15, 0.03 ]] call EDITOR_setCtrlPosition;
+			[_ctrlCrt , [0.00, 0.05, 0.15, 0.95 ]] call EDITOR_setCtrlPosition;
+			[_ctrlView, [0.15, 0.00, 0.70, 1.00 ]] call EDITOR_setCtrlPosition;
+			[_ctrlPlur, [0.85, 0.00, 0.15, 0.245]] call EDITOR_setCtrlPosition;
+			[_ctrlClas, [0.85, 0.25, 0.15, 0.75 ]] call EDITOR_setCtrlPosition;
+		};
+		case (GUISTATE_RIGHT) : {
+			[_ctrlType, [0.00, 0.00, 0.20, 0.03 ]] call EDITOR_setCtrlPosition;
+			[_ctrlCrt , [0.00, 0.05, 0.20, 0.95 ]] call EDITOR_setCtrlPosition;
+			[_ctrlView, [0.20, 0.00, 0.65, 1.00 ]] call EDITOR_setCtrlPosition;
+			[_ctrlPlur, [0.85, 0.00, 0.15, 0.245]] call EDITOR_setCtrlPosition;
+			[_ctrlClas, [0.85, 0.25, 0.15, 0.75 ]] call EDITOR_setCtrlPosition;
+		};
+		case (GUISTATE_LEFT) : {
+			[_ctrlType, [0.00, 0.00, 0.15, 0.03 ]] call EDITOR_setCtrlPosition;
+			[_ctrlCrt , [0.00, 0.05, 0.15, 0.95 ]] call EDITOR_setCtrlPosition;
+			[_ctrlView, [0.15, 0.00, 0.65, 1.00 ]] call EDITOR_setCtrlPosition;
+			[_ctrlPlur, [0.80, 0.00, 0.20, 0.245]] call EDITOR_setCtrlPosition;
+			[_ctrlClas, [0.80, 0.25, 0.20, 0.75 ]] call EDITOR_setCtrlPosition;
+		};
+	};
+
+	{_x ctrlCommit 0.25;} foreach [_ctrlView,_ctrlCrt,_ctrlPlur,_ctrlClas];
 };
 
 
 
 
+//========================================================================================
+//	Name:	EDITOR_getPos
+//========================================================================================
+EDITOR_getPos = {
+	switch (EDITOR_PosType) do {
+		case POSTYPE_ATL : {
+			getPosATL _this;
+		};
+		case POSTYPE_ASL : {
+			getPosASL _this;
+		};
+	};
+};
 
-
+//========================================================================================
+//	Name:	EDITOR_setPos
+//========================================================================================
+EDITOR_setPos = {
+	switch (EDITOR_PosType) do {
+		case POSTYPE_ATL : {
+			(_this select 0) setPosATL (_this select 1);
+		};
+		case POSTYPE_ASL : {
+			(_this select 0) setPosASL (_this select 1);
+		};
+	};
+};

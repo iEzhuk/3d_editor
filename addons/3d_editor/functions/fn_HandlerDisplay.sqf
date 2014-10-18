@@ -13,8 +13,17 @@ switch (_event) do {
 	case "init" : {
 		EDITOR_keys = [];
 		EDITOR_Buttons = [];
+		EDITOR_CreatedClasses = [];
 		EDITOR_Selecting = false;
+		EDITOR_ShowCreatedList = true;
+
 		EDITOR_InView = false;
+		EDITOR_InCreated = false;
+		EDITOR_InClass = false;
+		EDITOR_InPlural = false;
+
+		EDITOR_PosType = POSTYPE_ATL;
+
 		PR(_display) = _arg select 0;
 		uiNamespace setVariable ['EDITOR_Disaplay', _display];
 
@@ -53,10 +62,12 @@ switch (_event) do {
 		_display displayRemoveEventHandler ["MouseButtonDown", EDITOR_handMouseButtonDown];
 		_display displayRemoveEventHandler ["MouseButtonUp"	 , EDITOR_handMouseButtonUp];
 
-		player allowDamage true;
-		player switchCamera "INTERNAL";
+		systemChat "close";
 
-		//["destroy", []] call EDITOR_fnc_Camera;
+		player allowDamage true;
+		//player switchCamera "INTERNAL";
+
+		["destroy", []] call EDITOR_fnc_Camera;
 
 		{_x enableSimulationGlobal true;} foreach EDITOR_Created;
 	};
@@ -75,19 +86,23 @@ switch (_event) do {
 					[] call EDITOR_fnc_Save;
 				};
 			};
-			// Pase
+			// Paste
 			case KEY_V : {
 				systemChat format ["KEY: %1 %2 %3",_key,EDITOR_InView,EDITOR_keys];
 				if (EDITOR_InView && !(KEY_V in EDITOR_keys)) then {
-					[] call EDITOR_fnc_Pase;
+					[] call EDITOR_fnc_Paste;
 				};
 			};
-
+			case KEY_M : {
+				if(EDITOR_InView) then {
+					PR(_mousePos) = screenToWorld EDITOR_MouseCur_Position;
+					player setPos _mousePos;
+				};
+			};
 		};
 
 		// check ALT+TAB 
 		if (_key == KEY_TAB && _alt) exitWith {
-			systemChat "ALTTAB";
 			EDITOR_keys = [];
 		};
 
@@ -107,7 +122,6 @@ switch (_event) do {
 
 		// check ALT+TAB 
 		if (_key == KEY_TAB && _alt) exitWith {
-			systemChat "ALTTAB";
 			EDITOR_keys = [];
 		};
 
@@ -119,7 +133,7 @@ switch (_event) do {
 			//---------------- Set point to rotate
 			case KEY_R : {
 				if(EDITOR_InView) then {
-					if !(_ctrl) then {
+					if (count EDITOR_RotateCenter == 0) then {
 						PR(_wordPos) = screenToWorld EDITOR_MouseCur_Position;
 						EDITOR_RotateCenter = _wordPos;
 					} else {
@@ -158,6 +172,23 @@ switch (_event) do {
 			case KEY_END : {
 				systemChat "Saving...";
 				[] call EDITOR_fnc_SaveToClipboard;
+			};
+			case KEY_H : {
+				PR(_display) = uiNamespace getVariable 'EDITOR_Disaplay';
+				PR(_ctrCreated) = _display displayCtrl IDC_EDITOR_CREATED;
+
+				if(EDITOR_ShowCreatedList) then {
+					EDITOR_ShowCreatedList = false;
+					_ctrCreated ctrlSetPosition [-0.2*safezoneW+safezoneX,0.0*safezoneH+safezoneY];
+					_ctrCreated ctrlCommit 0;
+				}else{
+					EDITOR_ShowCreatedList = true;
+					_ctrCreated ctrlSetPosition [0.0*safezoneW+safezoneX,0.0*safezoneH+safezoneY];
+					_ctrCreated ctrlCommit 0;
+				};
+			};
+			case KEY_P : {
+				player switchCamera "INTERNAL";
 			};
 		};
 	};

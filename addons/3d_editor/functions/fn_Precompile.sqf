@@ -134,7 +134,7 @@ PR(_blackList) = [	"NVG_TargetC",
 					"BRDM2_HQ_TK_GUE_unfolded_Base_EP1",
 					"BRDM2_HQ_TK_GUE_unfolded_EP1",
 					"BTR90_HQ_unfolded",
-					"",
+					"TK_WarfareBFieldhHospital_EP1",
 					"",
 					"",
 					"",
@@ -199,7 +199,7 @@ diag_log "================= EDITOR =====================";
 diag_log format ["Parsing finished - %1", round (diag_tickTime - _startTime)];
 for "_i" from 0 to (count _array_plural - 1) do 
 {
-	diag_log format ["%1   ---   %2", _array_plural select _i, count (_array_class select _i)];
+	diag_log format ["%2   ---   %1", _array_plural select _i, count (_array_class select _i)];
 };
 diag_log "==============================================";
 
@@ -242,10 +242,9 @@ if(!isDedicated) then {
 
 
 /*
-!	1. Копирование
+
 ?	2. Информация 
 ?	3. Избранные
-!	4. Сортровка
 !	5. выделенные классы
 
 */

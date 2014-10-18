@@ -27,6 +27,8 @@ switch (_event) do {
 			_ctrlClass lbSetData [_forEachIndex, _x];
 		} foreach (EDITOR_Vehicles select _indClass);
 		lbSort _ctrlClass;
+
+		[] call EDITOR_fnc_UpdateCreatedClasses;
 	};
 	case "view_lbDrop" : {
 		PR(_wordPos) = screenToWorld [_arg select 1, _arg select 2];
@@ -64,7 +66,7 @@ switch (_event) do {
 			};
 			// Change height 
 			case (EDITOR_InView && (KEY_LMENU in EDITOR_keys)) : {
-				PR(_mult) = if(KEY_LCONTROL in EDITOR_keys)then{10}else{100};
+				PR(_mult) = if(KEY_LCONTROL in EDITOR_keys)then{5}else{50};
 				PR(_delta) = ((EDITOR_MouseCur_Position select 1) - (_mousePos select 1)) * _mult;
 
 				PR(_dPos) = [0, 0, _delta];
@@ -73,7 +75,7 @@ switch (_event) do {
 			};
 			// Change direction
 			case (EDITOR_InView && (KEY_LSHIFT in EDITOR_keys)) : {
-				PR(_mult) = if(KEY_LCONTROL in EDITOR_keys)then{10}else{360};
+				PR(_mult) = if(KEY_LCONTROL in EDITOR_keys)then{10}else{180};
 				PR(_delta) = ((EDITOR_MouseCur_Position select 0) - (_mousePos select 0)) * _mult;
 
 				[EDITOR_Selected, _delta] call EDITOR_fnc_RotateObjects;
@@ -106,5 +108,63 @@ switch (_event) do {
 
 			EDITOR_Selecting = false;
 		};
+	};
+	case "PosType_buttonType" : {
+		PR(_display) = uiNamespace getVariable 'EDITOR_Disaplay';
+		PR(_ctrl) = _display displayCtrl IDC_EDITOR_POSTYPE;
+
+		switch (EDITOR_PosType) do {
+			case POSTYPE_ASL : {
+				EDITOR_PosType = POSTYPE_ATL;
+				_ctrl ctrlSetText "ATL";
+			};
+			case POSTYPE_ATL : {
+				EDITOR_PosType = POSTYPE_ASL;
+				_ctrl ctrlSetText "ASL";
+			};
+		};
+
+		EDITOR_Selected = [];
+	};
+	case "Created_MouseMoving" : {
+		PR(_inCtrl) = _arg select 3;
+
+		if ( (_inCtrl && !EDITOR_InCreated) || (!_inCtrl && EDITOR_InCreated) ) then {
+			if (_inCtrl) then {
+				GUISTATE_RIGHT call EDITOR_chageGuiSate;
+			} else {
+				GUISTATE_VIEW call EDITOR_chageGuiSate;
+			};
+
+		};
+		
+		EDITOR_InCreated = _inCtrl;
+	};
+	case "Plural_mouseMoving" : {
+		PR(_inCtrl) = _arg select 3;
+
+		if ( (_inCtrl && !EDITOR_InPlural) || (!_inCtrl && EDITOR_InPlural) ) then {
+			if (_inCtrl) then {
+				GUISTATE_LEFT call EDITOR_chageGuiSate;
+			} else {
+				GUISTATE_VIEW call EDITOR_chageGuiSate;
+			};
+
+		};
+		
+		EDITOR_InPlural = _inCtrl;
+	};
+	case "classes_mouseMoving" : {
+		PR(_inCtrl) = _arg select 3;
+
+		if ( (_inCtrl && !EDITOR_InClass) || (!_inCtrl && EDITOR_InClass) ) then {
+			if (_inCtrl) then {
+				GUISTATE_LEFT call EDITOR_chageGuiSate;
+			} else {
+				GUISTATE_VIEW call EDITOR_chageGuiSate;
+			};
+
+		};
+		EDITOR_InClass = _inCtrl;
 	};
 };

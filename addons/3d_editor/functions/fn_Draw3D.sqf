@@ -4,11 +4,12 @@
  	Author(s):
 		Ezhuk
 */	
-#define COLOR_LOCAL  [0.0, 0.3, 0.6, 0.5]
-#define COLOR_GLOBAL [1.0, 0.5, 0.0, 0.5]
+#define COLOR_LOCAL  [0.0, 0.3, 0.6, 0.7]
+#define COLOR_GLOBAL [1.0, 0.5, 0.0, 0.7]
 #define COLOR_LOCAL_SELECTED  [0.0, 0.3, 0.6, 1.0]
 #define COLOR_GLOBAL_SELECTED [1.0, 0.5, 0.0, 1.0]	
 private ["_obj", "_count","_color","_arrayToDrawIcon","_x","_y"];
+
 
 //---------- show position all objects -------------------
 _count = count  EDITOR_Created;
@@ -16,7 +17,7 @@ for "_i" from 0 to (_count-1) do
 {
 	_obj = EDITOR_Created select _i;
 	_color = if(_obj getVariable ["EDITOR_Global",false])then{COLOR_GLOBAL}else{COLOR_LOCAL};
-	[_obj,_color0,0.5] call EDITOR_fnc_DrawIcon;
+	[_obj,_color,0.7] call EDITOR_fnc_DrawIcon;
 };
 
 
@@ -28,7 +29,7 @@ for "_i" from 0 to (_count-1) do
 	[_obj,[0,0,1,1]] call EDITOR_fnc_DrawBox3D;
 
 	_color = if(_obj getVariable ["EDITOR_Global",false])then{COLOR_GLOBAL_SELECTED}else{COLOR_LOCAL_SELECTED};
-	[_obj,_color] call EDITOR_fnc_DrawIcon;
+	[_obj,_color,0.9] call EDITOR_fnc_DrawIcon;
 };
 
 
