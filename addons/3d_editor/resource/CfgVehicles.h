@@ -2973,11 +2973,11 @@ class Land_Misc_Cargo1D_EP1 : House {
 };
 class Land_Misc_Cargo1E : House {
     textPlural = "Контейнер";
-    displayName = "Контейнер (голубой)"
+    displayName = "Контейнер (голубой)";
 };
 class Land_Misc_Cargo1F : House {
     textPlural = "Контейнер";
-    displayName = "Контейнер (синий)"
+    displayName = "Контейнер (синий)";
 };
 class Land_Misc_Cargo1G : House {
     textPlural = "Контейнер";
@@ -2985,31 +2985,31 @@ class Land_Misc_Cargo1G : House {
 };
 class Land_Misc_Cargo2A_EP1 : House {
     textPlural = "Контейнер";
-    displayName = "Контейнер (x2, черныe)"
+    displayName = "Контейнер (x2, черныe)";
 };
 class Land_Misc_Cargo2B : House {
     textPlural = "Контейнер";
-    displayName = "Контейнер (x2, песок)"
+    displayName = "Контейнер (x2, песок)";
 };
 class Land_Misc_Cargo2B_EP1 : House {
     textPlural = "Контейнер";
-    displayName = "Контейнер (x2, черныe)"
+    displayName = "Контейнер (x2, черныe)";
 };
 class Land_Misc_Cargo2C : House {
     textPlural = "Контейнер";
-    displayName = "Контейнер (x2, красный)"
+    displayName = "Контейнер (x2, красный)";
 };
 class Land_Misc_Cargo2C_EP1 : House {
     textPlural = "Контейнер";
-    displayName = "Контейнер (x2, синий)"
+    displayName = "Контейнер (x2, синий)";
 };
 class Land_Misc_Cargo2D : House {
     textPlural = "Контейнер";
-    displayName = "Контейнер (x2, красный)"
+    displayName = "Контейнер (x2, красный)";
 };
 class Land_Misc_Cargo2D_EP1 : House {
     textPlural = "Контейнер";
-    displayName = "Контейнер (x2, зеленый)"
+    displayName = "Контейнер (x2, зеленый)";
 };
 class Land_Misc_CargoMarket1a_EP1 : House {
     textPlural = "Контейнер";
