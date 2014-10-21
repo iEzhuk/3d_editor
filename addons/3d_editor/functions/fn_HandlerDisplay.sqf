@@ -190,6 +190,20 @@ switch (_event) do {
 			case KEY_P : {
 				player switchCamera "INTERNAL";
 			};
+			case KEY_LBRACKET : {
+				for "_i" from 0 to (count EDITOR_Selected - 1) do 
+				{
+					PR(_obj) = EDITOR_Selected select _i;
+					_obj setVariable ["EDITOR_Marker",true,true];
+				};
+			};
+			case KEY_RBRACKET : {
+				for "_i" from 0 to (count EDITOR_Selected - 1) do 
+				{
+					PR(_obj) = EDITOR_Selected select _i;
+					_obj setVariable ["EDITOR_Marker",false,true];
+				};
+			};
 		};
 	};
 	case "disp_mouseMovie" : {

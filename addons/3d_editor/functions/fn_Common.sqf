@@ -65,6 +65,7 @@ EDITOR_fnc_CreateObject = {
 	if(!(isNull _newObj)) then 
 	{
 		_newObj setVariable ["EDITOR_Global",false];
+		_newObj setVariable ["EDITOR_Marker",false];
 		_newObj setVariable ["EDITOR_Pitch",[_h,_v]];
 		_newObj allowdamage false;
 		_newObj enableSimulationGlobal false;
@@ -76,6 +77,7 @@ EDITOR_fnc_CreateObject = {
 			_newObj setDir (getDir _tObj);
 			_newObj setVectorUp (vectorUp _tObj);
 			_newObj setVariable ["EDITOR_Global", (_tObj getVariable ["EDITOR_Global",false]) ];
+			_newObj setVariable ["EDITOR_Marker", (_tObj getVariable ["EDITOR_Marker",false]) ];
 
 			_pos set [2, _posASL select 2];
 			[_newObj,_pos] call EDITOR_setPos;
@@ -429,7 +431,8 @@ EDITOR_fnc_Save = {
 					/*2*/	vectorUp _obj,
 					/*3*/	_obj getVariable ["EDITOR_Pitch",[0,0]],
 					/*4*/	_obj getVariable ["EDITOR_Global",false],
-					/*5*/	getDir _obj
+					/*5*/	getDir _obj,
+					/*6*/   _obj getVariable ["EDITOR_Marker",false]
 				];
 			EDITOR_Saved = [_tmp];
 		};
@@ -457,6 +460,7 @@ EDITOR_fnc_Paste = {
 		PR(_pitch)      = _objTMP select 3;
 		PR(_global)		= _objTMP select 4;
 		PR(_dir)		= _objTMP select 5;
+		PR(_marker)		= _objTMP select 6;
 
 		PR(_pos) = [
 				(_mousePos select 0) + (_dPos select 0),
@@ -473,6 +477,7 @@ EDITOR_fnc_Paste = {
 			_newObj setDir _dir;
 
 			_newObj setVariable ["EDITOR_Global",_global];
+			_newObj setVariable ["EDITOR_Marker",_marker];
 			_newObj setVariable ["EDITOR_Pitch",_pitch];
 			_newObj allowdamage false;
 			_newObj enableSimulationGlobal false;
@@ -511,7 +516,7 @@ EDITOR_fnc_PrepareScriptToCreateObject_Local = {
 	// if(_obj isKindOf "Building") then {
 	// 	_txt = _txt + "_obj call BIS_fnc_boundingBoxMarker;" + _br;
 	// };
-
+	_txt = _txt + format ["_obj setVariable [""EDITOR_Marker"",%1];",_obj getVariable ["EDITOR_Marker",false]] + _br;
 	_txt = _txt + "_obj allowdamage false;" + _br;
 	_txt = _txt + "_obj enableSimulationGlobal false;" + _br;
 	_txt = _txt + "EDITOR_Created set [count EDITOR_Created, _obj];" + _br;
@@ -542,7 +547,7 @@ EDITOR_fnc_PrepareScriptToCreateObject_Global = {
 	//_txt = _txt + format ["_obj setVectorUp %1;",_vectorUp] + _br;
 
 	_txt = _txt + format ["[_obj, %1, %2] call BIS_fnc_setPitchBank;",_pitch select 0 , _pitch select 1] + _br;
-
+	_txt = _txt + format ["_obj setVariable [""EDITOR_Marker"",%1];",_obj getVariable ["EDITOR_Marker",false]] + _br;
 
 	_txt = _txt + "_obj setVariable [""EDITOR_Global"", true];" + _br;
 	_txt = _txt + "EDITOR_Created set [count EDITOR_Created, _obj];" + _br;
@@ -633,12 +638,13 @@ EDITOR_fnc_SaveToClipboard = {
 	};
 
 	_text = _text + _br;
-	_text = _text + "// Draw markers" + _br;
+	_text = _text + "// Drawing markers" + _br;
 	_text = _text + _br;
 	
 	for "_i" from 0 to ((count EDITOR_Created)-1) do {
 		PR(_obj) = EDITOR_Created select _i;
-		if (_obj isKindOf "Building") then {
+		//if (_obj isKindOf "Building") then {
+		if(_obj getVariable ["EDITOR_Marker",false]) then {
 			_text = _text + ([_obj] call EDITOR_PrepareScriptForMarkers);
 			_text = _text + _br;
 		};

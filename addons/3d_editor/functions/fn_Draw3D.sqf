@@ -6,6 +6,8 @@
 */	
 #define COLOR_LOCAL  [0.0, 0.3, 0.6, 0.7]
 #define COLOR_GLOBAL [1.0, 0.5, 0.0, 0.7]
+#define COLOR_MARKER [0.6, 0.0, 0.0, 0.7]
+
 #define COLOR_LOCAL_SELECTED  [0.0, 0.3, 0.6, 1.0]
 #define COLOR_GLOBAL_SELECTED [1.0, 0.5, 0.0, 1.0]	
 private ["_obj", "_count","_color","_arrayToDrawIcon","_x","_y"];
@@ -17,7 +19,12 @@ for "_i" from 0 to (_count-1) do
 {
 	_obj = EDITOR_Created select _i;
 	_color = if(_obj getVariable ["EDITOR_Global",false])then{COLOR_GLOBAL}else{COLOR_LOCAL};
-	[_obj,_color,0.7] call EDITOR_fnc_DrawIcon;
+
+	if(_obj getVariable ["EDITOR_Marker",false]) then {
+		[_obj,COLOR_MARKER,0.9] call EDITOR_fnc_DrawIcon;
+	};
+
+	[_obj,_color,0.6] call EDITOR_fnc_DrawIcon;
 };
 
 
@@ -29,7 +36,12 @@ for "_i" from 0 to (_count-1) do
 	[_obj,[0,0,1,1]] call EDITOR_fnc_DrawBox3D;
 
 	_color = if(_obj getVariable ["EDITOR_Global",false])then{COLOR_GLOBAL_SELECTED}else{COLOR_LOCAL_SELECTED};
-	[_obj,_color,0.9] call EDITOR_fnc_DrawIcon;
+
+	if(_obj getVariable ["EDITOR_Marker",false]) then {
+		[_obj,COLOR_MARKER,1] call EDITOR_fnc_DrawIcon;
+	};
+	[_obj,_color,0.8] call EDITOR_fnc_DrawIcon;
+
 };
 
 
@@ -42,3 +54,5 @@ if(count EDITOR_RotateCenter == 3) then {
 
 	drawIcon3D ["a3\ui_f\data\map\VehicleIcons\iconexplosiveat_ca.paa", [0,0.7,0,1], [_x, _y, 0], 1, 1, 2, "", 2, 0.05, "PuristaMedium"];
 };
+
+
