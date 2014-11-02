@@ -608,11 +608,11 @@ EDITOR_fnc_SaveToClipboard = {
 	_text = _text + "_id    = if (isnil {_logic getvariable ""bundingBoxMarker_id""}) then {_logic setvariable [""bundingBoxMarker_id"",-1];-1} else {_logic getvariable ""bundingBoxMarker_id""};" + _br;
 	_text = _text + "[_logic,""bundingBoxMarker_id"",1] call bis_fnc_variablespaceadd;" + _br;
 	_text = _text + "_marker = createmarkerlocal [format [""EDITOR_BundingBoxMarker_%1"", _id], _pos];" + _br;
-	_text = _text + "_marker setmarkerdir        _dir;" + _br;
-	_text = _text + "_marker setmarkershapelocal ""rectangle"";" + _br;
-	_text = _text + "_marker setmarkersizelocal  [_bbx/2,_bby/2];" + _br;
-	_text = _text + "_marker setmarkercolor      _color;" + _br;
-	_text = _text + "_marker setmarkeralphalocal _alpha;" + _br;
+	_text = _text + "_marker setMarkerDirLocal _dir;" + _br;
+	_text = _text + "_marker setMarkerShapeLocal ""rectangle"";" + _br;
+	_text = _text + "_marker setMarkerSizeLocal [_bbx/2,_bby/2];" + _br;
+	_text = _text + "_marker setMarkerColorLocal _color;" + _br;
+	_text = _text + "_marker setMarkerAlphaLocal _alpha;" + _br;
 	_text = _text + "};" + _br;
 	_text = _text + _br;
 
