@@ -1,3 +1,4 @@
+https://github.com/iEzhuk/3d_editor/
 
 Необходимые аддоны
 	1. @A3MP
