@@ -40,7 +40,9 @@ class RscEditor3D {
 			size 	= 0.025;
 			sizeEx 	= 0.025;
 			canDrag = 0;
-			
+
+			colorBackground[] = {0,0,0,0.9};
+
 			onLBSelChanged = "['Plural_lb_changed',_this] call EDITOR_fnc_HandlerControl;";
 			onMouseMoving = "['Plural_mouseMoving', _this] call EDITOR_fnc_HandlerControl;";
 		};
@@ -56,7 +58,9 @@ class RscEditor3D {
 			size 	= 0.025;
 			sizeEx 	= 0.025;
 			canDrag = 1;
-			
+
+			colorBackground[] = {0,0,0,0.9};
+
 			onMouseMoving = "['classes_mouseMoving', _this] call EDITOR_fnc_HandlerControl;";
 			// onLBSelChanged = "['objFiltered_LBSelChanged',_this] call EDITOR_fnc_HandlerControl;";
 			// onKeyDown 	   = "['objFiltered_keyDown',_this] call EDITOR_fnc_HandlerControl;";
@@ -101,6 +105,8 @@ class RscEditor3D {
 			w = 0.15 * safeZoneW;
 			h = 0.95 * safeZoneH;
 
+			colorBackground[] = {0,0,0,0.9};
+			
 			size 	= 0.025;
 			sizeEx 	= 0.025;
 			canDrag = 1;
@@ -119,7 +125,7 @@ class RscEditor3D {
 
 			text = "ATL";
 
-			colorBackground[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,1};
 
 			action = "['PosType_buttonType',_this] call EDITOR_fnc_HandlerControl;";
 		};

@@ -3319,611 +3319,611 @@ class Land_Unfinished_Building_01_F : House_F {
 
 
 //----------------------------------------------
-//				Здания (Черно)
+//				Здания (Чернорусь)
 //----------------------------------------------
 class Land_A_MunicipalOffice : NonStrategic {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Офис с часами";
 };
 class Land_ReservoirTower_F : House_F {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
 };
 class Land_A_GeneralStore_01 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Магазин Звезда (лестнциа)";
 };
 class Land_A_GeneralStore_01_dam : Land_A_GeneralStore_01 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Магазин Звезда (лестнциа, руины)";
 };
 class Land_A_GeneralStore_01a : Land_A_GeneralStore_01 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Магазин Звезда";
 };
 class Land_A_GeneralStore_01a_dam : Land_A_GeneralStore_01_dam {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Магазин Звезда (руины)";
 };
 class Land_A_Hospital : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Больница";
 };
 class Land_A_Hospital_dam : Land_A_Hospital {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Больница (руины)";
 };
 class Land_A_Office01 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Офис (4 этажа)";
 };
 class Land_A_Office01_EP1 : House_EP1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Офис 2 (4 этажа)";
 };
 class Land_A_Office02 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Офис 3 (4 этажа)";
 };
 class Land_A_Office02_dam : Land_A_Office02 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Офис 3 (4 этажа, руины)";
 };
 class Land_A_Pub_01 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом (угол, арка)";
 };
 class Land_a_stationhouse : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Пожарная станция (красная)";
 };
 class Land_A_Stationhouse_ep1 : House_EP1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Пожарная станция (синяя)";
 };
 class Land_A_statue01 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Статуя (солдаты)";
 };
 class Land_A_statue02 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Статуя (танк)";
 };
 class Land_A_Statue_EP1 : House_EP1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Статуя (солдаты, ржавая)";
 };
 class Land_A_TVTower_Base : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "ТВ (основание)";
 };
 class Land_A_TVTower_Mid : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "ТВ (середины)";
 };
 class Land_A_TVTower_Top : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "ТВ (верхушка)";
 };
 class Land_afbarabizna : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Сгоревший дом";
 };
 class Land_afdum_mesto2 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Сгоревший дом 2";
 };
 class Land_afdum_mesto2L : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Сгоревший дом (угол)";
 };
 class Land_afdum_mesto3 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Сгоревший дом (арка)";
 };
 class Land_afhospoda_mesto : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Сгоревший дом 2 (угол)";
 };
 class Land_dulni_bs : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Сгоревший дом 3";
 };
 
 class Land_Barn_Metal : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Ангар (большой, красный)";
 };
 class Land_Barn_Metal_dam : Land_Barn_Metal {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Ангар (большой, красный, разрушенный)";
 };
 class Land_Barn_W_01 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Ангар";
 };
 class Land_Barn_W_01_dam : Land_Barn_W_01 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Ангар (разрушенный)";
 };
 class Land_Barn_W_02 : Land_Barn_W_01 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Ангар (маленький)";
 };
 class Land_bouda1 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Сарай (2-х этажный)";
 };
 class Land_bouda2_vnitrek : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Сарай";
 };
 class Land_bouda3 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Сарай (большой)";
 };
 class Land_bouda_plech : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Сарай (миниы)";
 };
 class Land_brana02nodoor : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Арка";
 };
 class Land_budova1 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом_1";
 };
 class Land_budova2 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом_2";
 };
 class Land_budova4 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом_4";
 };
 class Land_budova5 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом_5";
 };
 class Land_Church_01 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Церковь (желтая)";
 };
 class Land_Church_02 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Церковь (большая, серая)";
 };
 class Land_Church_02a : Land_Church_02 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Церковь (большая, серая, купол)";
 };
 class Land_Church_03 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Церковь (большая, белая)";
 };
 class Land_Church_03_dam : Land_Church_03 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Церковь (большая, белая, разрушенная)";
 };
 class Land_Church_05R : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Церковь (руины)";
 };
 class Land_kostel_trosky : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Церковь (руины 2)";
 };
 class Land_cihlovej_dum : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Домик (камень, красный)";
 };
 class Land_cihlovej_dum_in : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Домик2 (камень, красный)";
 };
 class Land_Company3_2 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Вывеска организации";
 };
 class Land_Dam_Conc_20 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дамба 2";
 };
 class Land_Dam_Barrier_40 : Land_Dam_Conc_20 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дамба";
 };
 class Land_Dam_ConcP_20 : Land_Dam_Conc_20 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дамба 3";
 };
 class Land_deutshe : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Здание (2-х этажное)";
 };
 class Land_deutshe_mini : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Здание (1-х этажное)";
 };
 class Land_domek_rosa : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Домик (красное)";
 };
 class Land_dum01 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Бараки";
 };
 class Land_dum_m2 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Домик";
 };
 class Land_dum_mesto : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом 5";
 };
 class Land_dum_mesto2 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом 6";
 };
 class Land_dum_mesto2l : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом 7";
 };
 class Land_dum_mesto3 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом 8";
 };
 class Land_dum_mesto_in : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом 9";
 };
 class Land_dum_zboreny : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Сгоревшее здание";
 };
 class Land_dum_zboreny_total : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Сгоревшее здание (руины)";
 };
 class Land_Farm_Cowshed_a : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Свинарник 1";
 };
 class Land_Farm_Cowshed_b : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Свинарник 2";
 };
 class Land_Farm_Cowshed_c : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Свинарник 3";
 };
 class Land_Farm_Cowshed_a_dam : Land_Farm_Cowshed_a {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Свинарник 1 (руины)";
 };
 class Land_Farm_Cowshed_b_dam : Land_Farm_Cowshed_b {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Свинарник 2 (руины)";
 };
 class Land_Farm_Cowshed_c_dam : Land_Farm_Cowshed_c {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Свинарник 3 (руины)";
 };
 class Land_Farm_WTower : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Геостанция";
 };
 class Land_garaz_mala : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Гараж";
 };
 class Land_garaz : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Гараж (x3)";
 };
 class Land_Gate_IndVar2_5 : Land_Wall_Gate_Ind1_R {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Ворота (деревянный)";
 };
 class Land_Gate_Wood1_5 : Land_Wall_Gate_Ind1_R {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Калитка (деревянный)";
 };
 class Land_Gate_wood2_5 : Land_Wall_Gate_Ind1_R {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Калитка 2 (деревянный)";
 };
 class Land_GeneralStore_01a_PMC : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Магазин";
 };
 class Land_GeneralStore_01a_dam_PMC : Land_GeneralStore_01a_PMC {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Магазин (руины)";
 };
 class Land_hospital : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Больница (П)";
 };
 
 class Land_HouseB_Tenement : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Гостиница";
 };
 
 class Land_HouseBlock_A1 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок А 1";
 };
 class Land_HouseBlock_A1_1 : Land_HouseBlock_A1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок А 1_1";
 };
 class Land_HouseBlock_A1_2 : Land_HouseBlock_A1_1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок А 1_2";
 };
 class Land_HouseBlock_A2 : Land_HouseBlock_A1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок А 2";
 };
 class Land_HouseBlock_A2_1 : Land_HouseBlock_A1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок А 2_1";
 };
 class Land_HouseBlock_A3 : Land_HouseBlock_A1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок А 3";
 };
 class Land_HouseBlock_B1 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок Б 1";
 };
 class Land_HouseBlock_B2 : Land_HouseBlock_B1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок Б 2";
 };
 class Land_HouseBlock_B3 : Land_HouseBlock_B1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок Б 3";
 };
 class Land_HouseBlock_B4 : Land_HouseBlock_B1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок Б 4";
 };
 class Land_HouseBlock_B5 : Land_HouseBlock_B1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок Б 5";
 };
 class Land_HouseBlock_B6 : Land_HouseBlock_B1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок Б 6";
 };
 
 class Land_HouseBlock_C1 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок С 1";
 };
 class Land_HouseBlock_C2 : Land_HouseBlock_C1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок С 2";
 };
 class Land_HouseBlock_C3 : Land_HouseBlock_C1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок С 4";
 };
 class Land_HouseBlock_C4 : Land_HouseBlock_C1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок С 4";
 };
 class Land_HouseBlock_C5 : Land_HouseBlock_C1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок С 5";
 };
 
 class Land_HouseBlock_D1 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок О 2";
 };
 class Land_HouseBlock_D2 : Land_HouseBlock_D1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Блок О 2";
 };
 class Land_Tec : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Вывеска TEC";
 };
 class Land_Panelak : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Панедьный дом 2";
 };
 class Land_Panelak2 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Панедьный дом 4";
 };
 class Land_Panelak3 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Панедьный дом 8";
 };
 class Pile_of_wood : Land_Ind_Timbers {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дрова";
 };
 class Land_psi_bouda : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Собачья будка";
 };
 class Land_HouseV2_01A : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V2 1-a";
 };
 class Land_HouseV2_01A_dam : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V2 1-a (урон)";
 };
 class Land_HouseV2_01B : Land_HouseV2_01A {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V2 1-б";
 };
 class Land_HouseV2_01B_dam : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V2 1-б (урон)";
 };
 class Land_HouseV2_02 : Land_HouseV2_01A {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V2";
 };
 class Land_HouseV2_02_Interier : Land_HouseV2_02 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V2 (вход, урон)";
 };
 class Land_HouseV2_02_Interier_dam : Land_HouseV2_02 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V2 2 (вход, урон)";
 };
 class Land_HouseV2_03 : Land_HouseV2_01A {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V2 3";
 };
 class Land_HouseV2_03_dam : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V2 3 (урон)";
 };
 class Land_HouseV2_03B : Land_HouseV2_01A {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V2 3б";
 };
 class Land_HouseV2_03B_dam : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V2 3б  (урон)";
 };
 class Land_HouseV2_04 : Land_HouseV2_01A {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V2 4";
 };
 class Land_HouseV2_04_interier : Land_HouseV2_04 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V2 4 (вход)";
 };
 class Land_HouseV2_04_interier_dam : Land_HouseV2_02_Interier_dam {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V2 4 (вход, урон)";
 };
 class Land_HouseV2_05 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V2 5";
 };
 
 class Land_HouseV_1I1 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 1I1";
 };
 class Land_HouseV_1I2 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 1I2";
 };
 class Land_HouseV_1I3 : Land_HouseV_1I2 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 1I3";
 };
 class Land_HouseV_1I4 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 1I4";
 };
 class Land_HouseV_1L1 : Land_HouseV_1I2 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 1L1";
 };
 class Land_HouseV_1L2 : Land_HouseV_1I2 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 1L2";
 };
 class Land_HouseV_1T : Land_HouseV_1I2 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 1T";
 };
 class Land_HouseV_2I : Land_HouseV_1I2 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 2I";
 };
 class Land_HouseV_2L : Land_HouseV_1I2 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 2L";
 };
 class Land_HouseV_2L_dam : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 2L (урон)";
 };
 class Land_houseV_2T1 : Land_HouseV_1I2 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 2T1";
 };
 class Land_houseV_2T2 : Land_HouseV_1I2 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 2T2";
 };
 class Land_HouseV_3I1 : Land_HouseV_1I2 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 3T1";
 };
 class Land_HouseV_3I2 : Land_HouseV_1I2 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 3T2";
 };
 class Land_HouseV_3I3 : Land_HouseV_1I2 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 3T3";
 };
 class Land_HouseV_3I4 : Land_HouseV_1I2 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Дом V 3T4";
 };
 class Land_KBud : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Туалет";
 };
 class Land_hut06 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Сарай";
 };
 class Land_hut_old02 : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Ангар (старый)";
 };
 class Land_Ind_PowerStation_EP1 : House_EP1 {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Подстанция (красная)";
 };
 class Land_kulna : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Сарай";
 };
 class Land_Misc_PowerStation : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Подстанция";
 };
 class Land_Misc_WaterStation : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Техбудка";
 };
 class Land_pumpa : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Водяная колонка";
 };
 class Land_R_A_GeneralStore_01a : House {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Магазин звезда (руины)";
 };
 class Land_R_Barn_Metal : Land_R_A_GeneralStore_01a {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Ангар красный (большой, без обшивки)";
 };
 class Land_R_Barn_W_01 : Land_R_A_GeneralStore_01a {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Ангар (руины)";
 };
 class Land_R_Farm_Cowshed_a : Land_R_A_GeneralStore_01a {
-    textPlural = "Здания (Черно)";
+    textPlural = "Здания (Чернорусь)";
     displayName = "Свинарник руины";
 };
 

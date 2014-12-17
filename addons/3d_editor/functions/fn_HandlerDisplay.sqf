@@ -62,8 +62,6 @@ switch (_event) do {
 		_display displayRemoveEventHandler ["MouseButtonDown", EDITOR_handMouseButtonDown];
 		_display displayRemoveEventHandler ["MouseButtonUp"	 , EDITOR_handMouseButtonUp];
 
-		systemChat "close";
-
 		player allowDamage true;
 		//player switchCamera "INTERNAL";
 
@@ -97,6 +95,13 @@ switch (_event) do {
 				if(EDITOR_InView) then {
 					PR(_mousePos) = screenToWorld EDITOR_MouseCur_Position;
 					player setPos _mousePos;
+				};
+			};
+			case KEY_1 : {
+				if(EDITOR_InView) then {
+					if (count EDITOR_Selected > 0) then {
+						EDITOR_Selected = [EDITOR_Selected select 0];
+					};
 				};
 			};
 		};

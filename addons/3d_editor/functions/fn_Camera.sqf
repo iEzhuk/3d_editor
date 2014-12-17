@@ -36,7 +36,6 @@ switch (_event) do {
 
 	};
 	case "destroy" : {
-		systemChat "camClose";
 		player cameraEffect ["terminate","back"];
 		camDestroy EDITOR_Camera;
 

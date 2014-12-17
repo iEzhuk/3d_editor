@@ -66,7 +66,7 @@ switch (_event) do {
 			};
 			// Change height 
 			case (EDITOR_InView && (KEY_LMENU in EDITOR_keys)) : {
-				PR(_mult) = if(KEY_LCONTROL in EDITOR_keys)then{5}else{50};
+				PR(_mult) = if(KEY_LCONTROL in EDITOR_keys)then{5}else{20};
 				PR(_delta) = ((EDITOR_MouseCur_Position select 1) - (_mousePos select 1)) * _mult;
 
 				PR(_dPos) = [0, 0, _delta];

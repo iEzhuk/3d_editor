@@ -11,8 +11,8 @@ class CfgPatches
 		requiredAddons[] = {};
 		author[] = {"Ezhuk"};
 		authorUrl = "";
-		version = 0.1.0;
-		versionStr = "0.1.0";
-		versionAr[] = {0,1,0};	
+		version = 0.2.0;
+		versionStr = "0.2.0";
+		versionAr[] = {0,2,0};	
 	};
 };

@@ -518,7 +518,7 @@ EDITOR_fnc_PrepareScriptToCreateObject_Local = {
 	// };
 	_txt = _txt + format ["_obj setVariable [""EDITOR_Marker"",%1];",_obj getVariable ["EDITOR_Marker",false]] + _br;
 	_txt = _txt + "_obj allowdamage false;" + _br;
-	_txt = _txt + "_obj enableSimulationGlobal false;" + _br;
+	_txt = _txt + "_obj enableSimulation false;" + _br;
 	_txt = _txt + "EDITOR_Created set [count EDITOR_Created, _obj];" + _br;
 
 	_txt = _txt + _br;
@@ -586,9 +586,9 @@ EDITOR_fnc_SaveToClipboard = {
 	PR(_br) = toString [13, 10];
 	PR(_text) = "";
 
-	_text = _text + "// Object count:"+_br;
-	_text = _text + format ["//     Global - %1", {_obj getVariable ["EDITOR_Global",false]} count EDITOR_Created] + _br;
-	_text = _text + format ["//     Local  - %1", {!(_obj getVariable ["EDITOR_Global",false])} count EDITOR_Created] + _br;
+	// _text = _text + "// Object count:"+_br;
+	// _text = _text + format ["//     Global - %1", {_obj getVariable ["EDITOR_Global",false]} count EDITOR_Created] + _br;
+	// _text = _text + format ["//     Local  - %1", {!(_obj getVariable ["EDITOR_Global",false])} count EDITOR_Created] + _br;
 	_text = _text + "private [""_obj""];"+_br;
 	_text = _text + 'if (isnil "EDITOR_Created") then {EDITOR_Created = [];};'+_br;
 
@@ -601,8 +601,7 @@ EDITOR_fnc_SaveToClipboard = {
 	_text = _text + "_dir   = _this select 1;" + _br;
 	_text = _text + "_bbx   = _this select 2;" + _br;
 	_text = _text + "_bby   = _this select 3;" + _br;
-	_text = _text + "_color = ""ColorBlack"";" + _br;
-	_text = _text + "_alpha = 1.0;" + _br;
+	_text = _text + "_color = ""ColorGrey"";" + _br;
 	_text = _text + "if(!hasInterface)exitWith{};" + _br;
 	_text = _text + "_logic = bis_functions_mainscope;" + _br;
 	_text = _text + "_id    = if (isnil {_logic getvariable ""bundingBoxMarker_id""}) then {_logic setvariable [""bundingBoxMarker_id"",-1];-1} else {_logic getvariable ""bundingBoxMarker_id""};" + _br;
@@ -610,9 +609,10 @@ EDITOR_fnc_SaveToClipboard = {
 	_text = _text + "_marker = createmarkerlocal [format [""EDITOR_BundingBoxMarker_%1"", _id], _pos];" + _br;
 	_text = _text + "_marker setMarkerDirLocal _dir;" + _br;
 	_text = _text + "_marker setMarkerShapeLocal ""rectangle"";" + _br;
+	_text = _text + "_marker setMarkerBrushLocal ""SolidFull"";" + _br;
 	_text = _text + "_marker setMarkerSizeLocal [_bbx/2,_bby/2];" + _br;
 	_text = _text + "_marker setMarkerColorLocal _color;" + _br;
-	_text = _text + "_marker setMarkerAlphaLocal _alpha;" + _br;
+	_text = _text + "_marker setMarkerAlphaLocal 1.0;" + _br;
 	_text = _text + "};" + _br;
 	_text = _text + _br;
 
@@ -724,11 +724,16 @@ EDITOR_chageGuiSate = {
 
 	switch (_this) do {
 		case (GUISTATE_VIEW) : {
+			// [_ctrlType, [0.00, 0.00, 0.15, 0.03 ]] call EDITOR_setCtrlPosition;
+			// [_ctrlCrt , [0.00, 0.05, 0.15, 0.95 ]] call EDITOR_setCtrlPosition;
+			// [_ctrlView, [0.15, 0.00, 0.70, 1.00 ]] call EDITOR_setCtrlPosition;
+			// [_ctrlPlur, [0.85, 0.00, 0.15, 0.245]] call EDITOR_setCtrlPosition;
+			// [_ctrlClas, [0.85, 0.25, 0.15, 0.75 ]] call EDITOR_setCtrlPosition;
 			[_ctrlType, [0.00, 0.00, 0.15, 0.03 ]] call EDITOR_setCtrlPosition;
-			[_ctrlCrt , [0.00, 0.05, 0.15, 0.95 ]] call EDITOR_setCtrlPosition;
+			[_ctrlCrt , [0.00, 0.05, 0.10, 0.95 ]] call EDITOR_setCtrlPosition;
 			[_ctrlView, [0.15, 0.00, 0.70, 1.00 ]] call EDITOR_setCtrlPosition;
-			[_ctrlPlur, [0.85, 0.00, 0.15, 0.245]] call EDITOR_setCtrlPosition;
-			[_ctrlClas, [0.85, 0.25, 0.15, 0.75 ]] call EDITOR_setCtrlPosition;
+			[_ctrlPlur, [0.90, 0.00, 0.10, 0.245]] call EDITOR_setCtrlPosition;
+			[_ctrlClas, [0.90, 0.25, 0.10, 0.75 ]] call EDITOR_setCtrlPosition;
 		};
 		case (GUISTATE_RIGHT) : {
 			[_ctrlType, [0.00, 0.00, 0.20, 0.03 ]] call EDITOR_setCtrlPosition;
@@ -761,7 +766,7 @@ EDITOR_getPos = {
 			getPosATL _this;
 		};
 		case POSTYPE_ASL : {
-			getPosASL _this;
+			getPosWorld _this;
 		};
 	};
 };
@@ -775,7 +780,7 @@ EDITOR_setPos = {
 			(_this select 0) setPosATL (_this select 1);
 		};
 		case POSTYPE_ASL : {
-			(_this select 0) setPosASL (_this select 1);
+			(_this select 0) setPosWorld (_this select 1);
 		};
 	};
 };
