@@ -52,6 +52,8 @@ switch (_event) do {
 		player allowDamage false;
 
 		{_x enableSimulationGlobal false;} foreach EDITOR_Created;
+
+		GUISTATE_VIEW call EDITOR_chageGuiSate;
 	};
 	case "close" : {
 		// -------------------- Remove handler --------------------

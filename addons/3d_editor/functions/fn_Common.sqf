@@ -519,7 +519,7 @@ EDITOR_fnc_PrepareScriptToCreateObject_Local = {
 	_txt = _txt + format ["_obj setVariable [""EDITOR_Marker"",%1];",_obj getVariable ["EDITOR_Marker",false]] + _br;
 	_txt = _txt + "_obj allowdamage false;" + _br;
 	_txt = _txt + "_obj enableSimulation false;" + _br;
-	_txt = _txt + "EDITOR_Created set [count EDITOR_Created, _obj];" + _br;
+	_txt = _txt + "EDITOR_Created pushBack _obj;" + _br;
 
 	_txt = _txt + _br;
 	_txt
@@ -550,7 +550,7 @@ EDITOR_fnc_PrepareScriptToCreateObject_Global = {
 	_txt = _txt + format ["_obj setVariable [""EDITOR_Marker"",%1];",_obj getVariable ["EDITOR_Marker",false]] + _br;
 
 	_txt = _txt + "_obj setVariable [""EDITOR_Global"", true];" + _br;
-	_txt = _txt + "EDITOR_Created set [count EDITOR_Created, _obj];" + _br;
+	_txt = _txt + "EDITOR_Created pushBack _obj;" + _br;
 
 	_txt = _txt + _br;
 	_txt
@@ -729,25 +729,25 @@ EDITOR_chageGuiSate = {
 			// [_ctrlView, [0.15, 0.00, 0.70, 1.00 ]] call EDITOR_setCtrlPosition;
 			// [_ctrlPlur, [0.85, 0.00, 0.15, 0.245]] call EDITOR_setCtrlPosition;
 			// [_ctrlClas, [0.85, 0.25, 0.15, 0.75 ]] call EDITOR_setCtrlPosition;
-			[_ctrlType, [0.00, 0.00, 0.15, 0.03 ]] call EDITOR_setCtrlPosition;
+			[_ctrlType, [0.00, 0.00, 0.10, 0.03 ]] call EDITOR_setCtrlPosition;
 			[_ctrlCrt , [0.00, 0.05, 0.10, 0.95 ]] call EDITOR_setCtrlPosition;
-			[_ctrlView, [0.15, 0.00, 0.70, 1.00 ]] call EDITOR_setCtrlPosition;
+			[_ctrlView, [0.10, 0.00, 0.80, 1.00 ]] call EDITOR_setCtrlPosition;
 			[_ctrlPlur, [0.90, 0.00, 0.10, 0.245]] call EDITOR_setCtrlPosition;
 			[_ctrlClas, [0.90, 0.25, 0.10, 0.75 ]] call EDITOR_setCtrlPosition;
 		};
 		case (GUISTATE_RIGHT) : {
-			[_ctrlType, [0.00, 0.00, 0.20, 0.03 ]] call EDITOR_setCtrlPosition;
-			[_ctrlCrt , [0.00, 0.05, 0.20, 0.95 ]] call EDITOR_setCtrlPosition;
-			[_ctrlView, [0.20, 0.00, 0.65, 1.00 ]] call EDITOR_setCtrlPosition;
+			[_ctrlType, [0.00, 0.00, 0.05, 0.03 ]] call EDITOR_setCtrlPosition;
+			[_ctrlCrt , [0.00, 0.05, 0.10, 0.95 ]] call EDITOR_setCtrlPosition;
+			[_ctrlView, [0.10, 0.00, 0.75, 1.00 ]] call EDITOR_setCtrlPosition;
 			[_ctrlPlur, [0.85, 0.00, 0.15, 0.245]] call EDITOR_setCtrlPosition;
 			[_ctrlClas, [0.85, 0.25, 0.15, 0.75 ]] call EDITOR_setCtrlPosition;
 		};
 		case (GUISTATE_LEFT) : {
 			[_ctrlType, [0.00, 0.00, 0.15, 0.03 ]] call EDITOR_setCtrlPosition;
 			[_ctrlCrt , [0.00, 0.05, 0.15, 0.95 ]] call EDITOR_setCtrlPosition;
-			[_ctrlView, [0.15, 0.00, 0.65, 1.00 ]] call EDITOR_setCtrlPosition;
-			[_ctrlPlur, [0.80, 0.00, 0.20, 0.245]] call EDITOR_setCtrlPosition;
-			[_ctrlClas, [0.80, 0.25, 0.20, 0.75 ]] call EDITOR_setCtrlPosition;
+			[_ctrlView, [0.15, 0.00, 0.75, 1.00 ]] call EDITOR_setCtrlPosition;
+			[_ctrlPlur, [0.90, 0.00, 0.10, 0.245]] call EDITOR_setCtrlPosition;
+			[_ctrlClas, [0.90, 0.25, 0.10, 0.75 ]] call EDITOR_setCtrlPosition;
 		};
 	};
 
@@ -784,3 +784,4 @@ EDITOR_setPos = {
 		};
 	};
 };
+

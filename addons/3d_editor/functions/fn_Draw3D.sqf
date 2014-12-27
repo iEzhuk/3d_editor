@@ -6,7 +6,7 @@
 */	
 #define COLOR_LOCAL  [0.0, 0.3, 0.6, 0.7]
 #define COLOR_GLOBAL [1.0, 0.5, 0.0, 0.7]
-#define COLOR_MARKER [0.6, 0.0, 0.0, 0.7]
+#define COLOR_MARKER [1.0, 1.0, 1.0, 1.0]
 
 #define COLOR_LOCAL_SELECTED  [0.0, 0.3, 0.6, 1.0]
 #define COLOR_GLOBAL_SELECTED [1.0, 0.5, 0.0, 1.0]	

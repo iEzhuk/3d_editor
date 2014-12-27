@@ -131,7 +131,7 @@ switch (_event) do {
 
 		if ( (_inCtrl && !EDITOR_InCreated) || (!_inCtrl && EDITOR_InCreated) ) then {
 			if (_inCtrl) then {
-				GUISTATE_RIGHT call EDITOR_chageGuiSate;
+				GUISTATE_LEFT call EDITOR_chageGuiSate;
 			} else {
 				GUISTATE_VIEW call EDITOR_chageGuiSate;
 			};
@@ -145,7 +145,7 @@ switch (_event) do {
 
 		if ( (_inCtrl && !EDITOR_InPlural) || (!_inCtrl && EDITOR_InPlural) ) then {
 			if (_inCtrl) then {
-				GUISTATE_LEFT call EDITOR_chageGuiSate;
+				GUISTATE_RIGHT call EDITOR_chageGuiSate;
 			} else {
 				GUISTATE_VIEW call EDITOR_chageGuiSate;
 			};
@@ -159,7 +159,7 @@ switch (_event) do {
 
 		if ( (_inCtrl && !EDITOR_InClass) || (!_inCtrl && EDITOR_InClass) ) then {
 			if (_inCtrl) then {
-				GUISTATE_LEFT call EDITOR_chageGuiSate;
+				GUISTATE_RIGHT call EDITOR_chageGuiSate;
 			} else {
 				GUISTATE_VIEW call EDITOR_chageGuiSate;
 			};
