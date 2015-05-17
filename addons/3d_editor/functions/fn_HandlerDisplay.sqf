@@ -22,6 +22,8 @@ switch (_event) do {
 		EDITOR_InClass = false;
 		EDITOR_InPlural = false;
 
+		EDITOR_Load_Last = true; 
+
 		EDITOR_PosType = POSTYPE_ATL;
 
 		PR(_display) = _arg select 0;
@@ -35,7 +37,17 @@ switch (_event) do {
 			_ctrlPlural lbSetData [_forEachIndex, _x];
 		} foreach EDITOR_VehicleClasses;
 		lbSort _ctrlPlural;
-		_ctrlPlural lbSetCurSel 0;
+		_ctrlPlural lbSetCurSel EDITOR_Last_Plural;
+
+		// // Preview
+		// PR(_ctrlPreview) = _display displayCtrl IDC_EDITOR_PREVIEW;
+
+		// EDITOR_CameraPreview = "camera" camCreate [0,0,5000];
+		// EDITOR_CameraPreview cameraEffect ["internal","back","rtt"];
+		// "rtt" setPiPEffect [0];
+
+		// _ctrlPreview ctrlsettext "#(argb,256,256,1)r2t(rtt,1.0)";
+		// _ctrlPreview ctrlCommit 0;
 
 		// -------------------- Camera --------------------
 		["create", []] call EDITOR_fnc_Camera;
@@ -54,6 +66,17 @@ switch (_event) do {
 		{_x enableSimulationGlobal false;} foreach EDITOR_Created;
 
 		GUISTATE_VIEW call EDITOR_chageGuiSate;
+
+		// Find groups id
+		EDITOR_Last_GroupID = 0;
+
+		for "_i" from 0 to ((count EDITOR_Created)- 1) do {
+			PR(_obj) = EDITOR_Created select _i;
+			if (EDITOR_Last_GroupID < _obj getVariable ["EDITOR_GroupID",-1]) then {
+				EDITOR_Last_GroupID = _obj getVariable ["EDITOR_GroupID",-1];
+			};
+		};
+
 	};
 	case "close" : {
 		// -------------------- Remove handler --------------------
@@ -70,6 +93,9 @@ switch (_event) do {
 		["destroy", []] call EDITOR_fnc_Camera;
 
 		{_x enableSimulationGlobal true;} foreach EDITOR_Created;
+
+		camDestroy EDITOR_CameraPreview;
+		EDITOR_CameraPreview = nil;
 	};
 	case "disp_keyDown" : {	
 		PR(_key)	= _arg select 1;
@@ -209,6 +235,46 @@ switch (_event) do {
 				{
 					PR(_obj) = EDITOR_Selected select _i;
 					_obj setVariable ["EDITOR_Marker",false,true];
+				};
+			};
+			case KEY_T : {
+				if (_ctrl) then {
+					// Ungrouping selected items
+					PR(_obj) = [];
+					for "_i" from 0 to (count EDITOR_Selected - 1) do 
+					{
+						_obj = EDITOR_Selected select _i;
+						_obj setVariable ["EDITOR_GroupID",nil,true];
+					};
+				} else {
+					// Grouping selected items
+					PR(_obj) = [];
+					PR(_max_id) = -1;
+					PR(_groups) = [];
+					for "_i" from 0 to (count EDITOR_Selected - 1) do 
+					{
+						_obj = EDITOR_Selected select _i;
+						_id = _obj getVariable ["EDITOR_GroupID",-1];
+						if (_max_id < _id) then {
+							_max_id = _id;
+						};
+
+						if !(_id in _groups) then {
+							_groups pushBack _id;
+						};
+					};
+
+					if ((count _groups) > 1 || _groups isEqualTo [-1]) then {
+						if (_max_id == -1) then {
+							EDITOR_Last_GroupID = EDITOR_Last_GroupID + 1;
+							_max_id = EDITOR_Last_GroupID;
+						};
+						for "_i" from 0 to (count EDITOR_Selected - 1) do 
+						{
+							_obj = EDITOR_Selected select _i;
+							_obj setVariable ["EDITOR_GroupID",_max_id,true];
+						};
+					};
 				};
 			};
 		};

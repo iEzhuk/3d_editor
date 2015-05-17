@@ -156,7 +156,10 @@ for "_i" from 0 to (count _vehs - 1) do
 	if (isClass(_objCfg)) then 
 	{
 		PR(_className) = configName (_objCfg);
-		if (getNumber (_objCfg >> "scope") > 0 && !(_className in _blackList) && !(["preview",str(_className)] call BIS_fnc_inString)) then 
+		if (getNumber (_objCfg >> "scope") > 0 && 
+			{!(_className in _blackList)} && 
+			{!(["preview",str(_className)] call BIS_fnc_inString)} 
+			) then 
 		{
 			PR(_model) = getText (configFile >> "CfgVehicles" >> _className >> "model");
 			if(_model != "" && _model != "\A3\Weapons_f\empty" && _model != "bmp") then 
@@ -206,12 +209,16 @@ diag_log "==============================================";
 //------------------------------------------------------
 //			Init variables 
 //------------------------------------------------------
+if (isNil "EDITOR_Created") then {
+	EDITOR_Created = [];
+};
 EDITOR_VehicleClasses = _array_plural;
 EDITOR_Vehicles = _array_class;
-EDITOR_Created = [];
 EDITOR_Selected = [];
 EDITOR_RotateCenter = [];
 
+EDITOR_Load_Last = false;
+EDITOR_Last_Plural = 0;
 
 //------------------------------------------------------
 // 							Client part

@@ -47,9 +47,9 @@ EDITOR_fnc_DrawIcon = {
 	_size = [_this, 2, 1.0] call BIS_fnc_param;
 
 	_pos = getPos _obj;
-
+	_text = ""; //str(_obj getVariable["EDITOR_GroupID",-1]);
 	//drawIcon3D ["a3\ui_f\data\map\markers\military\box_CA.paa", _color, _pos, 1, 1, 2, "", 2, 0.05, "PuristaMedium"];
-	drawIcon3D ["a3\ui_f\data\map\markers\military\box_CA.paa", _color, _pos, _size, _size, 2, "", 2, 0.05, "PuristaMedium"];
+	drawIcon3D ["a3\ui_f\data\map\markers\military\box_CA.paa", _color, _pos, _size, _size, 2, _text, 2, 0.05, "PuristaMedium"];
 };
 
 //========================================================================================
@@ -64,7 +64,7 @@ EDITOR_fnc_CreateObject = {
 
 	if(!(isNull _newObj)) then 
 	{
-		_newObj setVariable ["EDITOR_Global",false];
+		_newObj setVariable ["EDITOR_Global",true];
 		_newObj setVariable ["EDITOR_Marker",false];
 		_newObj setVariable ["EDITOR_Pitch",[_h,_v]];
 		_newObj allowdamage false;
@@ -189,6 +189,10 @@ EDITOR_fnc_SelectObjectsInRectagle = {
 	};
 
 	PR(_count) = count EDITOR_Created;
+	PR(_groups_to_add) = [];
+	PR(_groups_to_del) = [];
+	PR(_gId) = -1;
+
 	for "_i" from 0 to (_count-1) do 
 	{
 		PR(_obj) = EDITOR_Created select _i;
@@ -196,14 +200,44 @@ EDITOR_fnc_SelectObjectsInRectagle = {
 
 		if(count _screenPos == 2) then {
 			if([_screenPos,_rect] call EDITOR_fnc_CheckPositionInRectangle) then {
+				_gId = _obj getVariable ["EDITOR_GroupID",-1];
+
 				if(_obj in EDITOR_Selected) then {
 					EDITOR_Selected = EDITOR_Selected - [_obj];
+					if(_gId > 0 && {!(_gId in _groups_to_del)}) then {
+						_groups_to_del pushBack _gId; 
+					};
 				} else {
-					EDITOR_Selected set [count EDITOR_Selected, _obj];
+					EDITOR_Selected pushBack _obj;
+
+					if(_gId > 0 && {!(_gId in _groups_to_add)}) then {
+						_groups_to_add pushBack _gId; 
+					};
 				};
 			};
 		};
 	};
+	
+	_groups_to_del = _groups_to_del - _groups_to_add;
+
+	PR(_tSelected) = [];
+	for "_i" from 0 to ((count EDITOR_Selected)-1) do {
+		PR(_obj) = EDITOR_Selected select _i;
+		if (_obj getVariable["EDITOR_GroupID",-1] in _groups_to_del) then {
+			_tSelected pushBack _obj;
+		};
+	};
+
+	EDITOR_Selected = EDITOR_Selected - _tSelected;
+
+	for "_i" from 0 to ((count EDITOR_Created)-1) do {
+		PR(_obj) = EDITOR_Created select _i;
+		if ((_obj getVariable["EDITOR_GroupID",-1] in _groups_to_add) && !(_obj in EDITOR_Selected)) then {
+			EDITOR_Selected pushBack _obj;
+		};
+	};
+
+	(["xcam_pipe" call zlt_units, {!(["bunker", _x] call bis_fnc_instring) }] call zlt_filter)
 };
 
 //========================================================================================
@@ -260,11 +294,21 @@ EDITOR_fnc_RotatePoint = {
 //	Desc:	Draw rectagle 
 //========================================================================================
 EDITOR_fnc_RotateObjects = {
-	private ["_delta","_count","_pos","_dir","_newPos","_obj","_pitchBank","_vectorUp","_pitch"];
+	private ["_delta","_count","_pos","_dir","_newPos","_obj","_pitchBank","_vectorUp","_pitch","_cX","_cY"];
 
 	_objs  = _this select 0;
 	_delta = _this select 1;
 	_count = count _objs;
+
+	_cX = 0; _cY = 0;
+	for "_i" from 0 to (_count-1) do 
+	{
+		_obj = _objs select _i;
+		_pos = _obj call EDITOR_getPos;
+		_cX = _cX + (_pos select 0) / _count;
+		_cY = _cY + (_pos select 1) / _count; 
+	};
+
 
 	for "_i" from 0 to (_count-1) do 
 	{
@@ -281,6 +325,14 @@ EDITOR_fnc_RotateObjects = {
 			_pos = _obj call EDITOR_getPos;
 
 			_nPos = [_pos select 0, _pos select 1, EDITOR_RotateCenter select 0, EDITOR_RotateCenter select 1, -_delta] call EDITOR_fnc_RotatePoint;
+			_nPos set [2, _pos select 2];
+
+			[_obj,_nPos] call EDITOR_setPos;
+		} else {
+			private ["_x","_y","_nx","_ny"];
+			_pos = _obj call EDITOR_getPos;
+
+			_nPos = [_pos select 0, _pos select 1, _cX, _cY, -_delta] call EDITOR_fnc_RotatePoint;
 			_nPos set [2, _pos select 2];
 
 			[_obj,_nPos] call EDITOR_setPos;
@@ -503,7 +555,7 @@ EDITOR_fnc_PrepareScriptToCreateObject_Local = {
 	PR(_vectorUp) = vectorUp _obj;
 	PR(_pitch) = _obj call BIS_fnc_getPitchBank;
 	_obj setvectorup [0,0,1];
-	PR(_pos) = getPosWorld _obj;
+	PR(_pos) = (getPosWorld _obj) call KK_fnc_positionToString;
 	PR(_dir) = getDir _obj;
 	_obj setVectorUp _vectorUp;
 	PR(_txt) = "";
@@ -519,7 +571,7 @@ EDITOR_fnc_PrepareScriptToCreateObject_Local = {
 	_txt = _txt + format ["_obj setVariable [""EDITOR_Marker"",%1];",_obj getVariable ["EDITOR_Marker",false]] + _br;
 	_txt = _txt + "_obj allowdamage false;" + _br;
 	_txt = _txt + "_obj enableSimulation false;" + _br;
-	_txt = _txt + "EDITOR_Created pushBack _obj;" + _br;
+	_txt = _txt + "EDITOR_Created set [count EDITOR_Created, _obj];" + _br;
 
 	_txt = _txt + _br;
 	_txt
@@ -535,7 +587,7 @@ EDITOR_fnc_PrepareScriptToCreateObject_Global = {
 	PR(_vectorUp) = vectorUp _obj;
 	PR(_pitch) = _obj call BIS_fnc_getPitchBank;
 	_obj setvectorup [0,0,1];
-	PR(_pos) = getPosWorld _obj;
+	PR(_pos) = (getPosWorld _obj) call KK_fnc_positionToString;
 	PR(_dir) = getDir _obj;
 	_obj setVectorUp _vectorUp;
 	PR(_txt) = "";
@@ -550,7 +602,7 @@ EDITOR_fnc_PrepareScriptToCreateObject_Global = {
 	_txt = _txt + format ["_obj setVariable [""EDITOR_Marker"",%1];",_obj getVariable ["EDITOR_Marker",false]] + _br;
 
 	_txt = _txt + "_obj setVariable [""EDITOR_Global"", true];" + _br;
-	_txt = _txt + "EDITOR_Created pushBack _obj;" + _br;
+	_txt = _txt + "EDITOR_Created set [count EDITOR_Created, _obj];" + _br;
 
 	_txt = _txt + _br;
 	_txt
@@ -637,9 +689,9 @@ EDITOR_fnc_SaveToClipboard = {
 		};
 	};
 
-	_text = _text + _br;
-	_text = _text + "// Drawing markers" + _br;
-	_text = _text + _br;
+	// _text = _text + _br;
+	// _text = _text + "// Drawing markers" + _br;
+	// _text = _text + _br;
 	
 	for "_i" from 0 to ((count EDITOR_Created)-1) do {
 		PR(_obj) = EDITOR_Created select _i;
@@ -724,30 +776,26 @@ EDITOR_chageGuiSate = {
 
 	switch (_this) do {
 		case (GUISTATE_VIEW) : {
-			// [_ctrlType, [0.00, 0.00, 0.15, 0.03 ]] call EDITOR_setCtrlPosition;
-			// [_ctrlCrt , [0.00, 0.05, 0.15, 0.95 ]] call EDITOR_setCtrlPosition;
-			// [_ctrlView, [0.15, 0.00, 0.70, 1.00 ]] call EDITOR_setCtrlPosition;
-			// [_ctrlPlur, [0.85, 0.00, 0.15, 0.245]] call EDITOR_setCtrlPosition;
-			// [_ctrlClas, [0.85, 0.25, 0.15, 0.75 ]] call EDITOR_setCtrlPosition;
-			[_ctrlType, [0.00, 0.00, 0.10, 0.03 ]] call EDITOR_setCtrlPosition;
-			[_ctrlCrt , [0.00, 0.05, 0.10, 0.95 ]] call EDITOR_setCtrlPosition;
-			[_ctrlView, [0.10, 0.00, 0.80, 1.00 ]] call EDITOR_setCtrlPosition;
-			[_ctrlPlur, [0.90, 0.00, 0.10, 0.245]] call EDITOR_setCtrlPosition;
-			[_ctrlClas, [0.90, 0.25, 0.10, 0.75 ]] call EDITOR_setCtrlPosition;
-		};
-		case (GUISTATE_RIGHT) : {
-			[_ctrlType, [0.00, 0.00, 0.05, 0.03 ]] call EDITOR_setCtrlPosition;
-			[_ctrlCrt , [0.00, 0.05, 0.10, 0.95 ]] call EDITOR_setCtrlPosition;
-			[_ctrlView, [0.10, 0.00, 0.75, 1.00 ]] call EDITOR_setCtrlPosition;
+			[_ctrlType, [0.00, 0.00, 0.15, 0.03 ]] call EDITOR_setCtrlPosition;
+			[_ctrlCrt , [0.00, 0.05, 0.15, 0.95 ]] call EDITOR_setCtrlPosition;
+			[_ctrlView, [0.15, 0.00, 0.70, 1.00 ]] call EDITOR_setCtrlPosition;
 			[_ctrlPlur, [0.85, 0.00, 0.15, 0.245]] call EDITOR_setCtrlPosition;
 			[_ctrlClas, [0.85, 0.25, 0.15, 0.75 ]] call EDITOR_setCtrlPosition;
 		};
-		case (GUISTATE_LEFT) : {
+		case (GUISTATE_RIGHT) : {
 			[_ctrlType, [0.00, 0.00, 0.15, 0.03 ]] call EDITOR_setCtrlPosition;
 			[_ctrlCrt , [0.00, 0.05, 0.15, 0.95 ]] call EDITOR_setCtrlPosition;
-			[_ctrlView, [0.15, 0.00, 0.75, 1.00 ]] call EDITOR_setCtrlPosition;
-			[_ctrlPlur, [0.90, 0.00, 0.10, 0.245]] call EDITOR_setCtrlPosition;
-			[_ctrlClas, [0.90, 0.25, 0.10, 0.75 ]] call EDITOR_setCtrlPosition;
+			[_ctrlView, [0.15, 0.00, 0.65, 1.00 ]] call EDITOR_setCtrlPosition;
+			[_ctrlPlur, [0.80, 0.00, 0.20, 0.245]] call EDITOR_setCtrlPosition;
+			[_ctrlClas, [0.80, 0.25, 0.20, 0.75 ]] call EDITOR_setCtrlPosition;
+
+		};
+		case (GUISTATE_LEFT) : {
+			[_ctrlType, [0.00, 0.00, 0.20, 0.03 ]] call EDITOR_setCtrlPosition;
+			[_ctrlCrt , [0.00, 0.05, 0.20, 0.95 ]] call EDITOR_setCtrlPosition;
+			[_ctrlView, [0.20, 0.00, 0.65, 1.00 ]] call EDITOR_setCtrlPosition;
+			[_ctrlPlur, [0.85, 0.00, 0.15, 0.245]] call EDITOR_setCtrlPosition;
+			[_ctrlClas, [0.85, 0.25, 0.15, 0.75 ]] call EDITOR_setCtrlPosition;
 		};
 	};
 
@@ -785,3 +833,93 @@ EDITOR_setPos = {
 	};
 };
 
+
+EDITOR_filter = { 
+	PR(_res) = []; 
+	PR(_code) = _this select 1;
+	systemChat str(_this);
+	systemChat str(_groups_to_del);
+	{
+		if (call _code) then { 
+			_res pushBack _x
+		}; 
+	} foreach (_this select 0);
+
+	_res
+};
+
+KK_fnc_floatToString = {
+    private ["_num","_rem"];
+    _num = str _this + ".";
+    _rem = str (_this % 1);
+    (_num select [0, _num find "."]) + (_rem select [_rem find "."])
+};
+
+KK_fnc_positionToString = {
+    private ["_f2s","_num","_rem"];
+    _f2s = {
+        _num = str _this + ".";
+        _rem = str (_this % 1);
+        (_num select [0, _num find "."]) + (_rem select [_rem find "."])
+    };
+    format [
+        "[%1,%2,%3]",
+        _this select 0 call _f2s,
+        _this select 1 call _f2s,
+        _this select 2 call _f2s
+    ]
+};
+
+
+EDITOR_fnc_Preview = {
+	_className = [_this, 0, ""] call BIS_fnc_param;
+
+systemChat _className;
+	if !(isNil "EDITOR_Preview_Object") then {
+		deleteVehicle EDITOR_Preview_Object;
+	};
+
+	EDITOR_Preview_Object = nil;
+
+	if (isClass(configFile >> "CfgVehicles" >> _className)) then {
+		if (isNil "EDITOR_can_preview") then {
+			EDITOR_CamPos_save = [getPos EDITOR_Camera, getDir EDITOR_Camera, EDITOR_Camera_AngV];
+			EDITOR_can_preview = true;
+		};
+		EDITOR_Camera setPos [0,0,5000];
+		
+		EDITOR_Preview_Object = _className createVehicle [0,0,5000];
+		EDITOR_Preview_Object enableSimulation false;
+
+		PR(_boxBot) = (boundingboxReal EDITOR_Preview_Object) select 0;
+		PR(_boxTop) = (boundingboxReal EDITOR_Preview_Object) select 1;
+
+		PR(_sX) = (_boxTop select 0) - (_boxBot select 0);
+		PR(_sY) = (_boxTop select 1) - (_boxBot select 1);
+		PR(_sZ) = (_boxTop select 2) - (_boxBot select 2);
+
+		PR(_camPos) = getPosWorld EDITOR_Camera; //positionCameraToWorld [0,0,0];
+		PR(_curDir) = getDir EDITOR_Camera;
+
+		//PR(_offset) = [cos(_dir+90), sin(_dir+90), 0] vectorMultiply (_sX max (_sY max _sZ*0.5));
+		PR(_offset) = _sX max (_sY max _sZ);
+		PR(_newPos) = [0 , _offset, 0, _camPos, _curDir] call EDITOR_fnc_CalculatePosition;
+		_newPos = _newPos vectorAdd [0,0,-((_sZ*0.5) max 0.3)];
+
+
+		EDITOR_Preview_Object setPosWorld _newPos;
+
+		EDITOR_Camera camSetTarget EDITOR_Preview_Object; 
+		EDITOR_Camera camCommit 0;
+
+		EDITOR_Camera camSetTarget nil;
+		EDITOR_Camera camCommit 0;
+	} else {
+		camDestroy EDITOR_Camera;
+		["create", []] call EDITOR_fnc_Camera;
+		EDITOR_Camera setPos (EDITOR_CamPos_save select 0);
+		EDITOR_Camera setDir (EDITOR_CamPos_save select 1);
+		[EDITOR_Camera, EDITOR_Camera_AngV, 0] call bis_fnc_setpitchbank;
+		EDITOR_Camera camCommit 0;
+	};
+};

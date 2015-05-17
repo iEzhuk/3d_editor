@@ -12,6 +12,8 @@ PR(_arg)   = _this select 1;
 switch (_event) do {
 	case "Plural_lb_changed" : {
 		PR(_lbInd) = _arg select 1;
+		
+		EDITOR_Last_Plural = _lbInd;
 
 		PR(_display) = uiNamespace getVariable 'EDITOR_Disaplay';
 
@@ -28,7 +30,13 @@ switch (_event) do {
 		} foreach (EDITOR_Vehicles select _indClass);
 		lbSort _ctrlClass;
 
+		if (EDITOR_Load_Last) then {
+			_ctrlClass lbSetCurSel EDITOR_Last_Classes;
+			EDITOR_Load_Last = false;
+		};
+
 		[] call EDITOR_fnc_UpdateCreatedClasses;
+
 	};
 	case "view_lbDrop" : {
 		PR(_wordPos) = screenToWorld [_arg select 1, _arg select 2];
@@ -149,7 +157,6 @@ switch (_event) do {
 			} else {
 				GUISTATE_VIEW call EDITOR_chageGuiSate;
 			};
-
 		};
 		
 		EDITOR_InPlural = _inCtrl;
@@ -163,8 +170,27 @@ switch (_event) do {
 			} else {
 				GUISTATE_VIEW call EDITOR_chageGuiSate;
 			};
-
 		};
 		EDITOR_InClass = _inCtrl;
+	};
+	case "classes_lb_changed" : {
+		EDITOR_Last_Classes = _arg select 1;
+
+		if (KEY_LCONTROL in EDITOR_keys) then {
+			PR(_ctrl) = (uiNamespace getVariable 'EDITOR_Disaplay') displayCtrl IDC_EDITOR_CLASSES;
+			PR(_classMame) = _ctrl lbData EDITOR_Last_Classes;
+			[_classMame] call EDITOR_fnc_Preview;
+		} else {
+			[] call EDITOR_fnc_Preview;
+		}
+	};
+	case "created_lb_changed" : {
+		if (KEY_LCONTROL in EDITOR_keys) then {
+			PR(_ctrl) = (uiNamespace getVariable 'EDITOR_Disaplay') displayCtrl IDC_EDITOR_CLASSES;
+			PR(_classMame) = _ctrl lbData EDITOR_Last_Classes;
+			[_classMame] call EDITOR_fnc_Preview;
+		} else {
+			[] call EDITOR_fnc_Preview;
+		}
 	};
 };

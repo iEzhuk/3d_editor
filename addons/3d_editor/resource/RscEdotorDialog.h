@@ -6,11 +6,13 @@
 #define IDC_EDITOR_SELECT  88805
 #define IDC_EDITOR_CREATED 88806
 #define IDC_EDITOR_POSTYPE 88807
+#define IDC_EDITOR_PREVIEW 88808
 
 class RscText;
 class RscStructuredText;
 class RscListbox;
 class RscButton;
+class RscPicture;
 
 class RscEditor3D {
 	idd 		= IDD_EDITOR_DISPLAY;
@@ -61,6 +63,7 @@ class RscEditor3D {
 
 			colorBackground[] = {0,0,0,0.9};
 
+			onLBSelChanged = "['classes_lb_changed',_this] call EDITOR_fnc_HandlerControl;";
 			onMouseMoving = "['classes_mouseMoving', _this] call EDITOR_fnc_HandlerControl;";
 			// onLBSelChanged = "['objFiltered_LBSelChanged',_this] call EDITOR_fnc_HandlerControl;";
 			// onKeyDown 	   = "['objFiltered_keyDown',_this] call EDITOR_fnc_HandlerControl;";
@@ -111,9 +114,27 @@ class RscEditor3D {
 			sizeEx 	= 0.025;
 			canDrag = 1;
 
+			onLBSelChanged = "['created_lb_changed',_this] call EDITOR_fnc_HandlerControl;";
 			onMouseMoving 	  = "['Created_MouseMoving', _this] call EDITOR_fnc_HandlerControl;";
 
 		};
+		// class Preview: RscPicture {
+		// 		idc = IDC_EDITOR_PREVIEW;
+		// 		type = 0;
+		// 		style = 48;
+		// 		text = "";
+		// 		x = 0.60 * safezoneW + safezoneX;
+		// 		y = 0.25 * safezoneH + safezoneY;
+		// 		w = 0.20 * safezoneW;
+		// 		h = 0.20 * safezoneH;
+		// 		colorText[] = {1,1,1,1};
+		// 		colorBackground[] = {0, 0, 0, 1};
+		// 		font = "TahomaB";
+		// 		sizeEx = 0;
+		// 		lineSpacing = 0;
+		// 		fixedWidth = 0;
+		// 		shadow = 0;
+		// };
 		class ButtonPosType: RscButton
 		{
 			idc = IDC_EDITOR_POSTYPE;
