@@ -188,8 +188,11 @@ switch (_event) do {
 		if (KEY_LCONTROL in EDITOR_keys) then {
 			PR(_ctrl) = (uiNamespace getVariable 'EDITOR_Disaplay') displayCtrl IDC_EDITOR_CLASSES;
 			PR(_classMame) = _ctrl lbData EDITOR_Last_Classes;
+			
 			[_classMame] call EDITOR_fnc_Preview;
+			
 		} else {
+
 			[] call EDITOR_fnc_Preview;
 		}
 	};
