@@ -569,6 +569,7 @@ EDITOR_fnc_PrepareScriptToCreateObject_Local = {
 	// 	_txt = _txt + "_obj call BIS_fnc_boundingBoxMarker;" + _br;
 	// };
 	_txt = _txt + format ["_obj setVariable [""EDITOR_Marker"",%1];",_obj getVariable ["EDITOR_Marker",false]] + _br;
+	_txt = _txt + format ["_obj setVariable [""EDITOR_GroupID"",%1];", _obj getVariable ["EDITOR_GroupID",-1]] + _br;
 	_txt = _txt + "_obj allowdamage false;" + _br;
 	_txt = _txt + "_obj enableSimulation false;" + _br;
 	_txt = _txt + "EDITOR_Created set [count EDITOR_Created, _obj];" + _br;
@@ -591,19 +592,22 @@ EDITOR_fnc_PrepareScriptToCreateObject_Global = {
 	PR(_dir) = getDir _obj;
 	_obj setVectorUp _vectorUp;
 	PR(_txt) = "";
-
+	_txt = _txt + "_script = [] spawn {" + _br;
 	_txt = _txt + format ["_obj = createVehicle [""%1"", %2, [], 0, ""CAN_COLLIDE""];",_objType,_pos] + _br;
 	_txt = _txt + format ["_obj setPosWorld %1;",_pos] + _br;
 	_txt = _txt + format ["_obj setDir %1;",_dir] + _br;
 
 	//_txt = _txt + format ["_obj setVectorUp %1;",_vectorUp] + _br;
 
-	_txt = _txt + format ["[_obj, %1, %2] call BIS_fnc_setPitchBank;",_pitch select 0 , _pitch select 1] + _br;
-	_txt = _txt + format ["_obj setVariable [""EDITOR_Marker"",%1];",_obj getVariable ["EDITOR_Marker",false]] + _br;
-
+	_txt = _txt + format ["[_obj, %1, %2] call BIS_fnc_setPitchBank;", _pitch select 0 , _pitch select 1] + _br;
+	_txt = _txt + format ["_obj setVariable [""EDITOR_Marker"",%1];", _obj getVariable ["EDITOR_Marker",false]] + _br;
+	if(_obj getVariable ["EDITOR_GroupID",-1] != -1) then {
+		_txt = _txt + format ["_obj setVariable [""EDITOR_GroupID"",%1];", _obj getVariable ["EDITOR_GroupID",-1]] + _br;
+	};
 	_txt = _txt + "_obj setVariable [""EDITOR_Global"", true];" + _br;
 	_txt = _txt + "EDITOR_Created set [count EDITOR_Created, _obj];" + _br;
-
+	_txt = _txt + "};" + _br;
+	_txt = _txt + "waitUntil {scriptDone _script};" + _br;
 	_txt = _txt + _br;
 	_txt
 };
@@ -802,9 +806,6 @@ EDITOR_chageGuiSate = {
 	{_x ctrlCommit 0.25;} foreach [_ctrlView,_ctrlCrt,_ctrlPlur,_ctrlClas];
 };
 
-
-
-
 //========================================================================================
 //	Name:	EDITOR_getPos
 //========================================================================================
@@ -874,7 +875,6 @@ KK_fnc_positionToString = {
 EDITOR_fnc_Preview = {
 	_className = [_this, 0, ""] call BIS_fnc_param;
 
-systemChat _className;
 	if !(isNil "EDITOR_Preview_Object") then {
 		deleteVehicle EDITOR_Preview_Object;
 	};
@@ -886,7 +886,6 @@ systemChat _className;
 			EDITOR_CamPos_save = [getPos EDITOR_Camera, getDir EDITOR_Camera, EDITOR_Camera_AngV];
 			EDITOR_can_preview = true;
 		};
-		EDITOR_Camera setPos [0,0,5000];
 		
 		EDITOR_Preview_Object = _className createVehicle [0,0,5000];
 		EDITOR_Preview_Object enableSimulation false;
@@ -898,22 +897,20 @@ systemChat _className;
 		PR(_sY) = (_boxTop select 1) - (_boxBot select 1);
 		PR(_sZ) = (_boxTop select 2) - (_boxBot select 2);
 
-		PR(_camPos) = getPosWorld EDITOR_Camera; //positionCameraToWorld [0,0,0];
-		PR(_curDir) = getDir EDITOR_Camera;
+		PR(_camPos) = [0,0,5000]; // positionCameraToWorld [0,0,0]; // getPosWorld EDITOR_Camera; 
+		PR(_curDir) = 0; //getDir EDITOR_Camera;
 
 		//PR(_offset) = [cos(_dir+90), sin(_dir+90), 0] vectorMultiply (_sX max (_sY max _sZ*0.5));
 		PR(_offset) = _sX max (_sY max _sZ);
 		PR(_newPos) = [0 , _offset, 0, _camPos, _curDir] call EDITOR_fnc_CalculatePosition;
 		_newPos = _newPos vectorAdd [0,0,-((_sZ*0.5) max 0.3)];
 
-
 		EDITOR_Preview_Object setPosWorld _newPos;
 
 		EDITOR_Camera camSetTarget EDITOR_Preview_Object; 
+		EDITOR_Camera setPos [0,0,5000];
 		EDITOR_Camera camCommit 0;
 
-		EDITOR_Camera camSetTarget nil;
-		EDITOR_Camera camCommit 0;
 	} else {
 		camDestroy EDITOR_Camera;
 		["create", []] call EDITOR_fnc_Camera;
