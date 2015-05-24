@@ -181,7 +181,9 @@ switch (_event) do {
 			PR(_classMame) = _ctrl lbData EDITOR_Last_Classes;
 			[_classMame] call EDITOR_fnc_Preview;
 		} else {
-			[] call EDITOR_fnc_Preview;
+			if !(isNil "EDITOR_Preview_Object") then {
+				[] call EDITOR_fnc_Preview;
+			};
 		}
 	};
 	case "created_lb_changed" : {
@@ -192,8 +194,18 @@ switch (_event) do {
 			[_classMame] call EDITOR_fnc_Preview;
 			
 		} else {
-
-			[] call EDITOR_fnc_Preview;
+			if !(isNil "EDITOR_Preview_Object") then {
+				[] call EDITOR_fnc_Preview;
+			};
 		}
+	};
+	case "classes_keyUp" : {
+		systemChat str(_arg);
+		PR(_ctrl) = (uiNamespace getVariable 'EDITOR_Disaplay') displayCtrl IDC_EDITOR_CLASSES;
+		PR(_ind) = lbCurSel _ctrl;
+		systemChat str(_ind);
+		if(_ind >= 0) then {
+			
+		};
 	};
 };
