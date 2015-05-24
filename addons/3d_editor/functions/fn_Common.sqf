@@ -46,7 +46,7 @@ EDITOR_fnc_DrawIcon = {
 	_color = _this select 1;
 	_size = [_this, 2, 1.0] call BIS_fnc_param;
 
-	_pos = getPos _obj;
+	_pos = getPosATL _obj;
 	_text = ""; //str(_obj getVariable["EDITOR_GroupID",-1]);
 	//drawIcon3D ["a3\ui_f\data\map\markers\military\box_CA.paa", _color, _pos, 1, 1, 2, "", 2, 0.05, "PuristaMedium"];
 	drawIcon3D ["a3\ui_f\data\map\markers\military\box_CA.paa", _color, _pos, _size, _size, 2, _text, 2, 0.05, "PuristaMedium"];
@@ -196,7 +196,7 @@ EDITOR_fnc_SelectObjectsInRectagle = {
 	for "_i" from 0 to (_count-1) do 
 	{
 		PR(_obj) = EDITOR_Created select _i;
-		PR(_screenPos) = worldToScreen (getPos _obj);
+		PR(_screenPos) = worldToScreen (getPosATL _obj);
 
 		if(count _screenPos == 2) then {
 			if([_screenPos,_rect] call EDITOR_fnc_CheckPositionInRectangle) then {
@@ -903,7 +903,7 @@ EDITOR_fnc_Preview = {
 		//PR(_offset) = [cos(_dir+90), sin(_dir+90), 0] vectorMultiply (_sX max (_sY max _sZ*0.5));
 		PR(_offset) = _sX max (_sY max _sZ);
 		PR(_newPos) = [0 , _offset, 0, _camPos, _curDir] call EDITOR_fnc_CalculatePosition;
-		_newPos = _newPos vectorAdd [0,0,-((_sZ*0.5) max 0.3)];
+		_newPos = _newPos vectorAdd [0,0,-((_sZ*0.5) max 0.15)];
 
 		EDITOR_Preview_Object setPosWorld _newPos;
 
