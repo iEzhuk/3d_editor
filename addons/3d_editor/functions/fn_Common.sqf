@@ -550,6 +550,7 @@ EDITOR_fnc_Paste = {
 //	Desc:	Create script to create object 
 //========================================================================================
 EDITOR_fnc_PrepareScriptToCreateObject_Local = {
+	PR(_br) = toString [13, 10];
 	PR(_obj) = _this select 0;
 	PR(_objType) = typeOf _obj;
 	PR(_vectorUp) = vectorUp _obj;
@@ -583,6 +584,7 @@ EDITOR_fnc_PrepareScriptToCreateObject_Local = {
 //	Desc:	Create script to create object 
 //========================================================================================
 EDITOR_fnc_PrepareScriptToCreateObject_Global = {
+	PR(_br) = toString [13, 10];
 	PR(_obj) = _this select 0;
 	PR(_objType) = typeOf _obj;
 	PR(_vectorUp) = vectorUp _obj;
@@ -903,14 +905,13 @@ EDITOR_fnc_Preview = {
 		//PR(_offset) = [cos(_dir+90), sin(_dir+90), 0] vectorMultiply (_sX max (_sY max _sZ*0.5));
 		PR(_offset) = _sX max (_sY max _sZ);
 		PR(_newPos) = [0 , _offset, 0, _camPos, _curDir] call EDITOR_fnc_CalculatePosition;
-		_newPos = _newPos vectorAdd [0,0,-((_sZ*0.5) max 0.15)];
-
+		
 		EDITOR_Preview_Object setPosWorld _newPos;
 
 		EDITOR_Camera camSetTarget EDITOR_Preview_Object; 
 		EDITOR_Camera setPos [0,0,5000];
+		
 		EDITOR_Camera camCommit 0;
-
 	} else {
 		camDestroy EDITOR_Camera;
 		["create", []] call EDITOR_fnc_Camera;
